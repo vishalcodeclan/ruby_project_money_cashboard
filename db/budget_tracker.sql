@@ -3,10 +3,10 @@ DROP TABLE budgets;
 DROP TABLE categories;
 DROP TABLE vendors;
 
+
 CREATE TABLE categories (
   id SERIAL8 PRIMARY KEY,
-  name VARCHAR(255),
-  budget_id INT8 references budgets(id)
+  name VARCHAR(255)
 );
 
 CREATE TABLE vendors (
@@ -15,11 +15,11 @@ CREATE TABLE vendors (
 );
 
 CREATE TABLE budgets (
-  id SERIAL8 PRIMARY KEY;
-  amount INT8,
+  id SERIAL8 PRIMARY KEY,
+  amount_set INT8,
   start_date DATE,
   end_date DATE,
-  category_id INT8 references categories(id),
+  category_id INT8 references categories(id)
 );
 
 CREATE TABLE transactions (
@@ -27,5 +27,5 @@ CREATE TABLE transactions (
   transaction_date DATE,
   amount INT8,
   category_id INT8 references categories(id),
-  vendor_id INT8 references vendors(id),
+  vendor_id INT8 references vendors(id)
 );

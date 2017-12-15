@@ -1,12 +1,15 @@
 require_relative('../models/category')
 require_relative('../models/transaction')
 require_relative('../models/vendor')
+require_relative('../models/budget')
 require('pry-byebug')
 require('date')
 
 Transaction.delete_all
+Budget.delete_all
 Category.delete_all
 Vendor.delete_all
+
 
 c1 = Category.new({"name" => "Eating Out"})
 c2 = Category.new({"name" => "Fuel"})
@@ -57,21 +60,21 @@ v10.save
 v11.save
 
 b1 = Budget.new({
-  "amount" => 50,
+  "amount_set" => 100,
   "start_date" => Date.new(2017,1,1),
   "end_date" => Date.new(2017,1,30),
   "category_id" => c1.id
   })
 
-b2 = Budget.new({
-    "amount" => 100,
+  b2 = Budget.new({
+    "amount_set" => 200,
     "start_date" => Date.new(2017,1,1),
     "end_date" => Date.new(2017,1,30),
     "category_id" => c2.id
     })
 
-b3 = Budget.new({
-      "amount" =>150,
+    b3 = Budget.new({
+      "amount_set" => 300,
       "start_date" => Date.new(2017,1,1),
       "end_date" => Date.new(2017,1,30),
       "category_id" => c3.id
@@ -86,12 +89,11 @@ t1 = Transaction.new({
   "amount" => 20,
   "category_id" => c1.id,
   "vendor_id" => v1.id
-  "budget_id" => b1.id
   })
 
   t2 = Transaction.new({
     "transaction_date" => Date.new(2017,1,2),
-    "amount" => 25,
+    "amount" => 55,
     "category_id" => c1.id,
     "vendor_id" => v2.id
     })
@@ -118,7 +120,6 @@ t1 = Transaction.new({
     "amount" => 35,
     "category_id" => c6.id,
     "vendor_id" => v6.id
-    "budget" => nil
     })
   t7 = Transaction.new({
     "transaction_date" => Date.new(2017,1,7),
@@ -162,6 +163,8 @@ t8.save
 t9.save
 t10.save
 t11.save
+
+
 
 binding.pry
 nil

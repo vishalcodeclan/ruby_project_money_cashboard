@@ -1,65 +1,74 @@
 require_relative('../db/sql_runner')
+require('pry')
 
 class Budget
 
-  attr_reader :id, :amount, :start_date, :end_date, :category_id
+  attr_reader :id, :amount_set, :start_date, :end_date, :category_id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
-    @amount = options['amount'].to_i
+    @amount_set = options['amount_set'].to_i
     @start_date = options['start_date']
     @end_date= options['end_date']
     @category_id = options['category_id'].to_i
   end
 
   def save
-    sql = "INSERT INTO transactions
-    (transaction_date, amount, category_id, vendor_id)
+    sql = "INSERT INTO budgets
+    (amount_set, start_date, end_date, category_id)
     VALUES ($1, $2, $3, $4) RETURNING *"
-    values = [@transaction_date, @amount, @category_id, @vendor_id]
+    values = [@amount_set, @start_date, @end_date, @category_id]
     @id = SqlRunner.run(sql, values).first['id'].to_i
   end
 
+
   def Budget.delete_all
-    sql = "DELETE FROM transactions"
+    sql = "DELETE FROM budgets"
     SqlRunner.run(sql)
   end
 
   def update
-    sql = "UPDATE transactions SET
-    (transaction_date, amount, category_id, vendor_id)
+    sql = "UPDATE budgets SET
+    (amount_set, start_date, end_date, category_id)
     = ($1, $2, $3, $4)"
-    values = [@transaction_date, @amount, @category_id, @vendor_id]
+    values = [@amount_set, @start_date, @end_date, @category_id]
     SqlRunner.run(sql, values)
   end
 
-  def Transaction.all
-    sql = "SELECT * FROM transactions"
-    transactions_hashes = SqlRunner.run(sql)
-    return transactions_hashes.map {
-      |transaction| Transaction.new(transaction) }
+  def Budget.all
+    sql = "SELECT * FROM budgets"
+    budgets_hashes = SqlRunner.run(sql)
+    return budgets_hashes.map {
+      |budget| Budget.new(budget) }
   end
 
-  def Transaction.find(id)
-    sql = "SELECT * FROM transactions WHERE id = $1"
-    transaction_hash = SqlRunner(sql, [id])
-    return Transaction.new(transaction_hash.first)
+  def Budget.find(id)
+    sql = "SELECT * FROM budgets WHERE id = $1"
+    budget_hash = SqlRunner.run(sql, [id])
+    return Budget.new(budget_hash.first)
   end
 
-  def Transaction.delete(id)
-    sql = "DELETE FROM transactions WHERE id = $1"
+  def Budget.delete(id)
+    sql = "DELETE FROM budgets WHERE id = $1"
     SqlRunner.run(sql, [id])
   end
 
-  def Transaction.total_amount_spent
-    sql = "SELECT SUM(amount) FROM transactions"
-    return SqlRunner.run(sql).first['sum'].to_i
-  end
-
-  def Transaction.total_amount_spent_month(month)
-    sql = "SELECT SUM(amount) FROM transactions
-    WHERE EXTRACT(MONTH FROM transaction_date) = $1"
-    return SqlRunner.run(sql, [month]).first['sum'].to_i
+  def above_budget(month)
+    sql = "SELECT * from transactions INNER JOIN budgets
+    ON transactions.category_id = budgets.category_id
+    WHERE EXTRACT(MONTH FROM transaction_date) = $1;"
+    hashes = SqlRunner.run(sql, [month])
+    array_expenditures = hashes.map { |hash| hash['amount'].to_i }
+    total_expenditure = 0
+    array_expenditures.each { |amount1| total_expenditure += amount1}
+    if total_expenditure > hashes.first['amount_set'].to_i
+      return "Budget exceeded by
+      #{total_expenditure - hashes.first['amount_set'].to_i}"
+    else
+      return "Budget not exceeded, there is still
+      #{hashes.first['amount_set'].to_i - total_expenditure}
+      remaining to spend"
+    end
   end
 
 end
