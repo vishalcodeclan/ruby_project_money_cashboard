@@ -1,0 +1,21 @@
+<h2>All Transactions</h2>
+
+<table>
+  <tr>
+    <th>Transaction ID</th>
+    <th>Transaction Date</th>
+    <th>Transaction Amount</th>
+    <th>Transaction Category</th>
+    <th>Transaction Vendor</th>
+  </tr>
+  <% @transactions.each do |transaction| %>
+  <tr>
+    <td><%= transaction.id %></td>
+    <td><%= transaction.transaction_date %></td>
+    <td><%= transaction.amount %></td>
+    <td><%= transaction.category_id%></td> -->
+    <td><%= transaction.vendor_id%></td>
+  </tr>
+  <% end %>
+
+</table>

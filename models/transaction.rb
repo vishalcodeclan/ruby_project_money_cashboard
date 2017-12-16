@@ -42,7 +42,7 @@ class Transaction
 
   def Transaction.find(id)
     sql = "SELECT * FROM transactions WHERE id = $1"
-    transaction_hash = SqlRunner(sql, [id])
+    transaction_hash = SqlRunner.run(sql, [id])
     return Transaction.new(transaction_hash.first)
   end
 
@@ -61,6 +61,28 @@ class Transaction
     WHERE EXTRACT(MONTH FROM transaction_date) = $1"
     return SqlRunner.run(sql, [month]).first['sum'].to_i
   end
+
+  def category
+    sql = "SELECT * from categories where id = $1"
+    values = [@category_id]
+    result = SqlRunner.run(sql, values)
+    return Category.new(result.first)
+  end
+
+  def vendor
+    sql = "SELECT * from vendors where id = $1"
+    values = [@vendor_id]
+    result = SqlRunner.run(sql, values)
+    return Vendor.new(result.first)
+  end
+
+  def budget
+    sql = "SELECT * from budgets where category_id = $1"
+    values = [@category_id]
+    result = SqlRunner.run(sql, values)
+    return Budget.new(result.first)
+  end
+
 
 
 

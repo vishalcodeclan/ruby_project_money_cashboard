@@ -1,0 +1,26 @@
+<form class="" action="/budgets" method="post">
+
+  <label for="category_select">Select Category:</label>
+  <select class="" name="category_id" id="category_select">
+    <% @categories.each do |category| %>
+    <option value=<%= category.id %>><%= category.name.capitalize %></option>
+          <% end %>
+  </select>
+
+  <label for="amount_input">Budget Amount:</label>
+  <input id="amount_input" type="number"
+  name="amount_set" value="">
+
+  <label for="start_date_input">Select Start Date:</label>
+  <input id="start_date_input" type="date"
+  name="start_date" value="">
+
+  <label for="end_date_input">Select End Date:</label>
+  <input id="end_date_input" type="date"
+  name="end_date" value="">
+
+
+<input type="submit" name="" value="submit">
+
+
+</form>

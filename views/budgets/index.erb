@@ -1,0 +1,21 @@
+<h2>All Budgets</h2>
+
+<table>
+  <tr>
+    <th>Budget ID</th>
+    <th>Budget Category</th>
+    <th>Budget Amount</th>
+    <th>Budget Start Date/th>
+    <th>Budget End Date</th>
+  </tr>
+  <% @budgets.each do |budget| %>
+  <tr>
+    <td><%= budget.id %></td>
+    <td><%= budget.category_id %></td>
+    <td><%= budget.amount_set %></td>
+    <td><%= budget.start_date %></td>
+    <td><%= budget.end_date %></td>
+  </tr>
+  <% end %>
+
+</table>
