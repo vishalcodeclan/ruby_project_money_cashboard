@@ -1,0 +1,41 @@
+<h2>Edit <%= @transaction.id %></h2>
+
+<form class="" action="/transactions/<%= @transaction.id %>" method="post">
+
+  <label for="transaction_date_input">Select Date:</label>
+  <input id="transaction_date_input" type="date"
+  name="transaction_date" value="<%= @transaction.transaction_date %>"/>
+
+  <label for="amount_input">Transaction Amount:</label>
+  <input id="amount_input" type="number"
+  name="amount" value="<%= @transaction.amount %>">
+
+  <label for="category_select">Select Category:</label>
+  <select class="" name="category_id" id="category_select" selected="<%= @transaction.category_id %>">
+    <% @categories.each do |category| %>
+    <% if category.id == @transaction.category_id %>
+    <option value=<%= category.id %> selected><%= category.name.capitalize %></option>
+    <% else %>
+    <option value=<%= category.id %>><%= category.name.capitalize %></option>
+          <% end %>
+          <% end %>
+  </select>
+
+  <label for="vendor_select">Select Vendor:</label>
+  <select class="" name="vendor_id" id="vendor_select" selected="<%= @transaction.vendor_id %>">
+    <% @vendors.each do |vendor| %>
+    <% if vendor.id == @transaction.vendor_id %>
+    <option value=<%= vendor.id %> selected><%= vendor.name.capitalize %></option>
+    <% else %>
+    <option value=<%= vendor.id %>><%= vendor.name.capitalize %></option>
+          <% end %>
+          <% end %>
+  </select>
+
+
+<input type="submit" name="" value="submit">
+
+
+
+
+</form>

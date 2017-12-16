@@ -28,8 +28,8 @@ class Transaction
   def update
     sql = "UPDATE transactions SET
     (transaction_date, amount, category_id, vendor_id)
-    = ($1, $2, $3, $4)"
-    values = [@transaction_date, @amount, @category_id, @vendor_id]
+    = ($1, $2, $3, $4) WHERE id = $5"
+    values = [@transaction_date, @amount, @category_id, @vendor_id, @id]
     SqlRunner.run(sql, values)
   end
 

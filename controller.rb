@@ -33,8 +33,15 @@ get '/transactions/:id/edit' do
   @categories = Category.all
   @vendors = Vendor.all
   @transaction = Transaction.find(params[:id])
-  show(:edit)
+  erb(:edit)
 end
+
+post '/transactions/:id' do
+  transaction = Transaction.new(params)
+  transaction.update
+  redirect to "/transactions/#{params['id']}"
+end
+
 
 
 
