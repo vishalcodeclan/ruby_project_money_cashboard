@@ -25,11 +25,16 @@ post '/transactions' do
 end
 
 get '/transactions/:id' do
-  @transaction = Transaction.find(params['id'])
+  @transaction = Transaction.find(params[:id])
   erb(:show)
 end
 
-
+get '/transactions/:id/edit' do
+  @categories = Category.all
+  @vendors = Vendor.all
+  @transaction = Transaction.find(params[:id])
+  show(:edit)
+end
 
 
 

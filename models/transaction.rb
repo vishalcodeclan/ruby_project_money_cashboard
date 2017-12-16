@@ -42,8 +42,8 @@ class Transaction
 
   def Transaction.find(id)
     sql = "SELECT * FROM transactions WHERE id = $1"
-    transaction_hash = SqlRunner.run(sql, [id])
-    return Transaction.new(transaction_hash.first)
+    transaction_hash = SqlRunner.run(sql, [id]).first
+    return Transaction.new(transaction_hash)
   end
 
   def Transaction.delete(id)
