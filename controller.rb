@@ -6,16 +6,19 @@ require_relative('models/category.rb')
 require_relative('models/transaction.rb')
 require_relative('models/vendor.rb')
 
+
+
+
+
 get '/transactions' do
   @transactions = Transaction.all
-
-  erb(:index)
+  erb(:"transactions/index")
 end
 
 get('/transactions/new') do
   @categories = Category.all
   @vendors = Vendor.all
-  erb(:new)
+  erb(:"transactions/new")
 end
 
 post '/transactions' do
@@ -26,14 +29,14 @@ end
 
 get '/transactions/:id' do
   @transaction = Transaction.find(params[:id])
-  erb(:show)
+  erb(:"transactions/show")
 end
 
 get '/transactions/:id/edit' do
   @categories = Category.all
   @vendors = Vendor.all
   @transaction = Transaction.find(params[:id])
-  erb(:edit)
+  erb(:"transactions/edit")
 end
 
 post '/transactions/:id' do
@@ -42,16 +45,10 @@ post '/transactions/:id' do
   redirect to "/transactions/#{params['id']}"
 end
 
-
-
-
-
-
-
-
-
-
-
+post ('/transactions/:id/delete') do
+  Transaction.delete(params[:id])
+  redirect to ("/transactions")
+end
 
 get '/budgets' do
   @budgets = Budget.all
@@ -67,4 +64,26 @@ post '/budgets' do
   budget = Budget.new(params)
   budget.save
   redirect to('/budgets')
+end
+
+get '/budgets/:id' do
+  @budget = Budget.find(params[:id])
+  erb(:"budgets/show")
+end
+
+post ('/budgets/:id/delete') do
+  Budget.delete(params[:id])
+  redirect to "/budgets"
+end
+
+get '/budgets/:id/edit' do
+  @categories = Category.all
+  @budget = Budget.find(params[:id])
+  erb(:"budgets/edit")
+end
+
+post '/budgets/:id' do
+  budget = Budget.new(params)
+  budget.update
+  redirect to "/budgets/#{params['id']}"
 end

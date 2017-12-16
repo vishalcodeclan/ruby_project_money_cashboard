@@ -1,0 +1,31 @@
+<h2>Edit <%= @budget.id %></h2>
+<form class="" action="/budgets/<%= @budget.id %>" method="post">
+
+  <label for="category_select">Select Category:</label>
+  <select class="" name="category_id" id="category_select" selected="<%= @budget.category_id %>">
+  <% @categories.each do |category| %>
+  <% if category.id == @budget.category_id %>
+    <option value=<%= category.id %>><%= category.name.capitalize %></option>
+    <% else %>
+    <option value=<%= category.id %>><%= category.name.capitalize %></option>
+        <% end %>
+          <% end %>
+  </select>
+
+  <label for="amount_input">Budget Amount:</label>
+  <input id="amount_input" type="number"
+  name="amount_set" value="<%= @budget.amount_set %>">
+
+  <label for="start_date_input">Select Start Date:</label>
+  <input id="start_date_input" type="date"
+  name="start_date" value="<%= @budget.start_date %>">
+
+  <label for="end_date_input">Select End Date:</label>
+  <input id="end_date_input" type="date"
+  name="end_date" value="<%= @budget.end_date %>">
+
+
+<input type="submit" name="" value="submit">
+
+
+</form>

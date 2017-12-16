@@ -1,0 +1,11 @@
+<h2>Category: <%= @budget.category.name %></h2>
+
+<p>Amount: <%= @budget.amount_set %></p>
+<p>Date: <%= @budget.start_date %></p>
+<p>Date: <%= @budget.end_date %></p>
+
+<a href="/budgets/<%= @budget.id%>/edit">Edit</a>
+<form class="" action="/budgets/<%= @budget.id %>/delete"
+  method="post">
+  <input type="submit" name="" value="Delete">
+</form>

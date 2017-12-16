@@ -51,6 +51,11 @@ class Transaction
     SqlRunner.run(sql, [id])
   end
 
+  def delete
+    sql = "DELETE FROM transactions WHERE id = $1"
+    SqlRunner.run(sql, [@id])
+  end
+
   def Transaction.total_amount_spent
     sql = "SELECT SUM(amount) FROM transactions"
     return SqlRunner.run(sql).first['sum'].to_i

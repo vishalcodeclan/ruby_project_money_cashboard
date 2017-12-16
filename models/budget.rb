@@ -30,9 +30,16 @@ class Budget
   def update
     sql = "UPDATE budgets SET
     (amount_set, start_date, end_date, category_id)
-    = ($1, $2, $3, $4)"
-    values = [@amount_set, @start_date, @end_date, @category_id]
+    = ($1, $2, $3, $4) WHERE id = $5"
+    values = [@amount_set, @start_date, @end_date, @category_id,  @id]
     SqlRunner.run(sql, values)
+  end
+
+  def category
+    sql = "SELECT * from categories where id = $1"
+    values = [@category_id]
+    result = SqlRunner.run(sql, values)
+    return Category.new(result.first)
   end
 
   def Budget.all
