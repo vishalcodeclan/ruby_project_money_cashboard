@@ -1,0 +1,13 @@
+<h2>Balance by month</h2>
+
+<p>Total Budget: <%= @budget_total_month %></p>
+<p>Total Spending: <%= @transaction_total_month %></p>
+<p>Net: <%= @budget_total_month - @transaction_total_month %></p>
+
+<% if @transaction_total_month > @budget_total_month %>
+<%= "Warning, total expenditure is over budget for the month by
+#{@transaction_total_month - @budget_total_month}" %>
+<% else %>
+<%= "Total expenditure is below budget for the month by
+#{@budget_total_month - @transaction_total_month}" %>
+<% end %>

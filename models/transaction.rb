@@ -46,6 +46,14 @@ class Transaction
     return Transaction.new(transaction_hash)
   end
 
+  def Transaction.find_by_month(month)
+    sql = "SELECT * FROM transactions
+    WHERE EXTRACT(MONTH FROM transaction_date) = $1"
+    hashes = SqlRunner.run(sql, [month])
+    return hashes.map {
+      |transaction| Transaction.new(transaction) }
+  end
+
   def Transaction.delete(id)
     sql = "DELETE FROM transactions WHERE id = $1"
     SqlRunner.run(sql, [id])
@@ -61,11 +69,56 @@ class Transaction
     return SqlRunner.run(sql).first['sum'].to_i
   end
 
+  def Transaction.total
+    sql = "SELECT * from transactions INNER JOIN budgets
+    ON transactions.category_id = budgets.category_id"
+    hashes = SqlRunner.run(sql)
+    array_expenditures = hashes.map { |hash| hash['amount'].to_i }
+    total_expenditure = 0
+    array_expenditures.each { |amount1| total_expenditure += amount1}
+    return total_expenditure
+  end
+
   def Transaction.total_amount_spent_month(month)
     sql = "SELECT SUM(amount) FROM transactions
     WHERE EXTRACT(MONTH FROM transaction_date) = $1"
     return SqlRunner.run(sql, [month]).first['sum'].to_i
   end
+
+  # def Transaction.find_date_range(start_month, end_month)
+  #   sql = "SELECT * FROM transactions WHERE
+  #   EXTRACT(MONTH FROM transaction_date) >= $1 AND
+  #   EXTRACT(MONTH FROM transaction_date) <= $2;"
+  #   hashes = SqlRunner.run(sql, [start_month, end_month])
+  #   return hashes.map {
+  #     |transaction| Transaction.new(transaction) }
+  #   end
+
+  # def Transaction.find_date_range(start_month, end_month)
+  #   sql = "SELECT * FROM transactions WHERE
+  #   transaction_date >= $1 AND
+  #   transaction_date <= $2;"
+  #   hashes = SqlRunner.run(sql, [start_month, end_month])
+  #   return hashes.map {
+  #     |transaction| Transaction.new(transaction) }
+  #   end
+
+    def Transaction.find_date_range(start_month, end_month)
+      sql = "SELECT * FROM transactions WHERE
+      EXTRACT(MONTH FROM transaction_date) >= $1 AND
+      EXTRACT(MONTH FROM transaction_date) <= $2;"
+      hashes = SqlRunner.run(sql, [start_month, end_month])
+      return hashes.map {
+        |transaction| Transaction.new(transaction) }
+      end
+
+      def Transaction.total_date_range(start_month, end_month)
+        sql = "SELECT SUM(amount) FROM transactions WHERE
+        EXTRACT(MONTH FROM transaction_date) >= $1 AND
+        EXTRACT(MONTH FROM transaction_date) <= $2;"
+        return SqlRunner.run(sql, [start_month, end_month]).first['sum'].to_i
+        end
+
 
   def category
     sql = "SELECT * from categories where id = $1"

@@ -60,6 +60,41 @@ class Budget
     SqlRunner.run(sql, [id])
   end
 
+  def Budget.total
+    sql = "SELECT SUM(amount_set) FROM budgets"
+    return SqlRunner.run(sql).first['sum'].to_i
+  end
+
+  def Budget.monthly(month)
+    sql = "SELECT SUM(amount_set) FROM budgets
+    WHERE EXTRACT(MONTH FROM end_date) = $1"
+    return SqlRunner.run(sql, [month]).first['sum'].to_i
+  end
+
+  def Budget.find_by_month(month)
+    sql = "SELECT * FROM budgets
+    WHERE EXTRACT(MONTH FROM start_date) = $1"
+    hashes = SqlRunner.run(sql, [month])
+    return hashes.map {
+      |budget| Budget.new(budget) }
+  end
+
+  def Budget.find_date_range(start_month, end_month)
+    sql = "SELECT * FROM budgets WHERE
+    EXTRACT(MONTH FROM start_date) >= $1 AND
+    EXTRACT(MONTH FROM end_date) <= $2;"
+    hashes = SqlRunner.run(sql, [start_month, end_month])
+    return hashes.map {
+      |transaction| Budget.new(transaction) }
+    end
+
+    def Budget.total_date_range(start_month, end_month)
+      sql = "SELECT SUM(amount_set) FROM budgets WHERE
+      EXTRACT(MONTH FROM start_date) >= $1 AND
+      EXTRACT(MONTH FROM end_date) <= $2;"
+      return SqlRunner.run(sql, [start_month, end_month]).first['sum'].to_i
+      end
+
   def above_budget(month)
     sql = "SELECT * from transactions INNER JOIN budgets
     ON transactions.category_id = budgets.category_id
