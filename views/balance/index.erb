@@ -20,12 +20,12 @@
     <th>Transaction Amount</th>
       <th>Budget Assigned</th>
   </tr>
-  <% @transactions.each do |transaction| %>
+  <% @categories.each do |category| %>
   <tr>
-    <td><a href="/transactions/category/<%= transaction.category.name %>">
-    <%= transaction.category.name %></td>
-    <td><%= transaction.category.amount_spent %></td>
-    <td><%= transaction.budget.amount_set %></td>
+    <td><a href="/transactions/category/<%= category.name %>">
+    <%= category.name %></td>
+    <td><%= category.amount_spent %></td>
+    <td><%= category.budget.amount_set if category.budget %></td>
   </tr>
   <% end %>
 

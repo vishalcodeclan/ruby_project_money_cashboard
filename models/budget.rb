@@ -6,6 +6,7 @@ class Budget
   attr_reader :id, :amount_set, :start_date, :end_date, :category_id, :total
 
   def initialize(options)
+    p options
     @id = options['id'].to_i if options['id']
     @amount_set = options['amount_set'].to_i
     @start_date = options['start_date']

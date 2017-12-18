@@ -48,6 +48,39 @@ class Category
     return SqlRunner.run(sql, [@id]).first['sum'].to_i
   end
 
+  def transaction
+    sql = "SELECT * FROM transactions where category_id =  $1"
+    result = SqlRunner.run(sql, [@id])
+    return Transaction.new(result.first)
+  end
+
+  def budget
+    sql =  "SELECT * FROM budgets where category_id = $1"
+    result = SqlRunner.run(sql, [@id])
+    if result.count > 0
+      return Budget.new(result.first)
+    end
+  end
+
+  # def budget_exist?
+  # sql =  "SELECT * FROM budgets where category_id = $1"
+  #   budget_hash = SqlRunner.run(sql, [@id])
+  #   if budget_hash ==  nil
+  #     return false
+  #   else
+  #     return true
+  #   end
+  # end
+
+  # def budget_exist?
+  #   sql = "SELECT * FROM  budgets"
+  #
+
+  # def Category.budget_exist?(id)
+  #   categories = Category.all
+  #   ids = categories.map { |category|  category.id }
+  #   return ids.include?(id)
+  # end
 
 
 end

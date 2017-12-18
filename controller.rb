@@ -37,6 +37,8 @@ get('/transactions/new') do
 end
 
 post '/transactions' do
+  vendor = Vendor.new(params[:vendor_id]) if Vendor.find_name?(params[:vendor_id])
+  vendor.save
   transaction = Transaction.new(params)
   if transaction.check_budget?
     transaction.save
