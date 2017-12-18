@@ -61,8 +61,8 @@ v11.save
 
 b1 = Budget.new({
   "amount_set" => 100,
-  "start_date" => Date.new(2017,1,1),
-  "end_date" => Date.new(2017,1,30),
+  "start_date" => Date.new(2017,3,1),
+  "end_date" => Date.new(2017,3,30),
   "category_id" => c1.id
   })
 
@@ -82,24 +82,26 @@ b1 = Budget.new({
 
       b4 = Budget.new({
         "amount_set" => 300,
-        "start_date" => Date.new(2017,2,1),
-        "end_date" => Date.new(2017,2,28),
+        "start_date" => Date.new(2017,1,1),
+        "end_date" => Date.new(2017,1,28),
         "category_id" => c1.id
         })
 
         b5 = Budget.new({
           "amount_set" => 300,
-          "start_date" => Date.new(2017,2,1),
-          "end_date" => Date.new(2017,2,28),
-          "category_id" => c2.id
+          "start_date" => Date.new(2017,3,1),
+          "end_date" => Date.new(2017,3,28),
+          "category_id" => c3.id
           })
 
           b6 = Budget.new({
             "amount_set" => 300,
-            "start_date" => Date.new(2017,2,1),
+            "start_date" => Date.new(2017,3,1),
             "end_date" => Date.new(2017,2,28),
-            "category_id" => c3.id
+            "category_id" => c4.id
             })
+
+
 
 
 
@@ -190,7 +192,7 @@ t9.save
 t10.save
 t11.save
 
-Transaction.find_date_range('2017-01-01', '2017-02-01')
+# Transaction.find_date_range('2017-01-01', '2017-02-01')
 
 binding.pry
 nil

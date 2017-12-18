@@ -7,6 +7,9 @@
     <th>Transaction Amount</th>
     <th>Transaction Category</th>
     <th>Transaction Vendor</th>
+    <th>Budget Assigned</th>
+    <th>Budget Start Date</th>
+    <th>Budget End Date</th>
   </tr>
   <% @transactions.each do |transaction| %>
   <tr>
@@ -15,6 +18,9 @@
     <td><%= transaction.amount %></td>
     <td><%= transaction.category.name %></td>
     <td><%= transaction.vendor.name %></td>
+    <td><%= transaction.budget.amount_set %></td>
+    <td><%= transaction.budget.start_date%></td>
+    <td><%= transaction.budget.end_date%></td>
   </tr>
   <% end %>
   <tr>
@@ -23,6 +29,10 @@
     <td><%= Transaction.total_amount_spent %></td>
     <td> N/A </td>
     <td> N/A </td>
+    <td><%= Transaction.total_budget %></td>
+    <td> N/A </td>
+    <td> N/A </td>
+
   </tr>
 
 </table>

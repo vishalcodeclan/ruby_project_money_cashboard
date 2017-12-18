@@ -3,7 +3,7 @@ require('pry')
 
 class Budget
 
-  attr_reader :id, :amount_set, :start_date, :end_date, :category_id
+  attr_reader :id, :amount_set, :start_date, :end_date, :category_id, :total
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -81,8 +81,7 @@ class Budget
 
   def Budget.find_date_range(start_month, end_month)
     sql = "SELECT * FROM budgets WHERE
-    EXTRACT(MONTH FROM start_date) >= $1 AND
-    EXTRACT(MONTH FROM end_date) <= $2;"
+    start_date >= $1 AND end_date <= $2;"
     hashes = SqlRunner.run(sql, [start_month, end_month])
     return hashes.map {
       |transaction| Budget.new(transaction) }
@@ -112,5 +111,13 @@ class Budget
       remaining to spend"
     end
   end
+
+  # def Budget.full_view
+  #   sql = "select * from transactions inner join
+  #   budgets ON transactions.category_id =
+  #   budgets.category_id INNER JOIN vendors
+  #   ON vendors.id = transactions.vendor_id
+  #   INNER JOIN categories ON categories.id =
+  #   transactions.category_id;"
 
 end

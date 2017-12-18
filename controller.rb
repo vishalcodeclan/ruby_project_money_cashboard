@@ -38,8 +38,12 @@ end
 
 post '/transactions' do
   transaction = Transaction.new(params)
-  transaction.save
-  redirect to('/transactions')
+  if transaction.check_budget?
+    transaction.save
+    redirect to('/transactions')
+  else
+    erb(:"transactions/error")
+  end
 end
 
 get '/transactions/:id' do
@@ -78,7 +82,8 @@ post ('/transactions/:id/delete') do
 end
 
 get '/transactions/category/:name' do
-  @transactions_category = Transaction.find(params[:name])
+  @transactions_category = Transaction.find_by_category(params[:name])
+  @transactions_total = Transaction.total_by_category(params[:name])
   erb(:"transactions/category")
 end
 
