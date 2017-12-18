@@ -190,7 +190,7 @@ t9.save
 t10.save
 t11.save
 
-
+Transaction.find_date_range('2017-01-01', '2017-02-01')
 
 binding.pry
 nil

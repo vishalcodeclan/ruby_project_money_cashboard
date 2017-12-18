@@ -1,4 +1,5 @@
 require_relative('../db/sql_runner')
+require('pry-byebug')
 
 class Transaction
 
@@ -54,6 +55,16 @@ class Transaction
       |transaction| Transaction.new(transaction) }
   end
 
+  def Transaction.find_by_category(category)
+    sql = "SELECT * FROM transactions INNER JOIN categories
+    ON transactions.category_id = categories.id
+    WHERE category_id = $1"
+    hashes = SqlRunner.run(sql, [category])
+    return hashes.map {
+      |transaction| Transaction.new(transaction)}
+  end
+
+
   def Transaction.delete(id)
     sql = "DELETE FROM transactions WHERE id = $1"
     SqlRunner.run(sql, [id])
@@ -104,13 +115,23 @@ class Transaction
   #   end
 
     def Transaction.find_date_range(start_month, end_month)
-      sql = "SELECT * FROM transactions WHERE
-      EXTRACT(MONTH FROM transaction_date) >= $1 AND
-      EXTRACT(MONTH FROM transaction_date) <= $2;"
+      sql = "SELECT * FROM transactions WHERE transaction_date
+      >= $1 AND transaction_date  <= $2;"
       hashes = SqlRunner.run(sql, [start_month, end_month])
       return hashes.map {
         |transaction| Transaction.new(transaction) }
       end
+
+
+      #
+      # def Transaction.find_date_range(start_month, end_month)
+      #   sql = "SELECT * FROM transactions WHERE
+      #   EXTRACT(MONTH FROM transaction_date) >= $1 AND
+      #   EXTRACT(MONTH FROM transaction_date) <= $2;"
+      #   hashes = SqlRunner.run(sql, [start_month, end_month])
+      #   return hashes.map {
+      #     |transaction| Transaction.new(transaction) }
+      #   end
 
       def Transaction.total_date_range(start_month, end_month)
         sql = "SELECT SUM(amount) FROM transactions WHERE

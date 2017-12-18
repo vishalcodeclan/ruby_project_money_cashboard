@@ -6,7 +6,6 @@ require_relative('models/category.rb')
 require_relative('models/transaction.rb')
 require_relative('models/vendor.rb')
 
-
 get '/balance' do
   @transactions = Transaction.all
   @budgets = Budget.all
@@ -20,11 +19,11 @@ get '/balance/month/:month' do
   erb(:"balance/month")
 end
 
-get '/balance/month/:start/:end' do
-  @budgets = Budget.find_date_range(params[:start], params[:end])
+get '/balance/months/:start/:end' do
+  @transaction_total_months = Budget.total_date_range(params[:start], params[:end])
+  @budget_total_months = Transaction.total_date_range(params[:start], params[:end])
   erb(:"balance/multiple_months")
 end
-
 
 get '/transactions' do
   @transactions = Transaction.all
@@ -78,6 +77,11 @@ post ('/transactions/:id/delete') do
   redirect to ("/transactions")
 end
 
+get '/transactions/category/:name' do
+  @transactions_category = Transaction.find(params[:name])
+  erb(:"transactions/category")
+end
+
 get '/budgets' do
   @budgets = Budget.all
   erb(:"budgets/index")
@@ -105,8 +109,6 @@ get '/budgets/:id' do
   erb(:"budgets/show")
 end
 
-
-
 post ('/budgets/:id/delete') do
   Budget.delete(params[:id])
   redirect to "/budgets"
@@ -123,7 +125,6 @@ post '/budgets/:id' do
   budget.update
   redirect to "/budgets/#{params['id']}"
 end
-
 
 get '/budgets/months/:start/:end' do
   @budgets = Budget.find_date_range(params[:start], params[:end])
