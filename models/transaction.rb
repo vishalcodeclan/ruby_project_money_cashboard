@@ -1,5 +1,6 @@
 require_relative('../db/sql_runner')
 require('pry-byebug')
+require('date')
 
 class Transaction
 
@@ -21,17 +22,67 @@ class Transaction
     @id = SqlRunner.run(sql, values).first['id'].to_i
   end
 
-  def check_budget?
-    sql = "select * from budgets"
-    result = SqlRunner.run(sql)
-    budgets = result.map {
-      |budget| Budget.new(budget) }
-    for budget in budgets
-      return true if budget.category_id == @category_id
-    end
-    return false
-  end
+  # def check_budget?
+  #   sql = "select * from budgets"
+  #   result = SqlRunner.run(sql)
+  #   budgets = result.map {
+  #     |budget| Budget.new(budget) }
+  #   for budget in budgets
+  #     return true if budget.category_id == @category_id
+  #   end
+  #   return false
+  # end
 
+  # def check_budget?
+  #   sql = "select * from budgets"
+  #   result = SqlRunner.run(sql)
+  #   budgets = result.map {
+  #     |budget| Budget.new(budget) }
+  #     for budget in budgets
+  #       if budget.category_id == @category_id &&
+  #         (Date.parse(@transaction_date) >= Date.parse(budget.start_date)) &&
+  #         (Date.parse(@transaction_date) <= Date.parse(budget.end_date))
+  #         return true
+  #       end
+  #     end
+  #       return false
+  #     end
+
+      # def check_budget?
+      #   sql = "select * from budgets"
+      #   result = SqlRunner.run(sql)
+      #   budgets = result.map {
+      #     |budget| Budget.new(budget) }
+      #     for budget in budgets
+      #       if budget.category_id == @category_id &&
+      #         (@transaction_date >= Date.parse(budget.start_date)) &&
+      #         (@transaction_date <= Date.parse(budget.end_date))
+      #         return true
+      #       end
+      #     end
+      #       return false
+      #     end
+      def check_budget?
+        sql = "select * from budgets"
+        result = SqlRunner.run(sql)
+        budgets = result.map {
+          |budget| Budget.new(budget) }
+          for budget in budgets
+            if budget.category_id == @category_id &&
+              (@transaction_date >= budget.start_date) &&
+              (@transaction_date <= budget.end_date) &&
+              @amount < (budget.amount_set - Transaction.total_by_category(@category_id))
+              return true
+            end
+          end
+            return false
+          end
+
+          # def check_vendor_exists?
+          #   sql = "select * from vendors"
+          #   result = SqlRunner.run(sql)
+          #   vendors = result.map {
+          #     |vendor| Vendor.new(vendor) }
 
 def Transaction.delete_all
   sql = "DELETE FROM transactions"

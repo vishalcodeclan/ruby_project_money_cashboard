@@ -82,8 +82,8 @@ b1 = Budget.new({
 
       b4 = Budget.new({
         "amount_set" => 300,
-        "start_date" => Date.new(2017,1,1),
-        "end_date" => Date.new(2017,1,28),
+        "start_date" => Date.new(2017,4,1),
+        "end_date" => Date.new(2017,4,28),
         "category_id" => c1.id
         })
 

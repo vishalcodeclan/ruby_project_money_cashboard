@@ -34,9 +34,23 @@ class Vendor
 
   def Vendor.find(id)
     sql = "SELECT * FROM vendors WHERE id = $1"
-    vendor_hash = SqlRunner(sql, [id])
+    vendor_hash = SqlRunner.run(sql, [id])
     return Vendor.new(vendor_hash.first)
   end
+
+  def Vendor.find_name?(name)
+    sql = "SELECT * FROM vendors"
+    vendors_hashes = SqlRunner.run(sql)
+    vendors = vendors_hashes.map {
+      |vendor1| Vendor.new(vendor1) }
+    for  vendor in vendors
+      if vendor.name == name
+        return true
+      end
+    end
+      return false
+  end
+
 
   def Vendor.delete(id)
     sql = "DELETE FROM vendors WHERE id = $1"

@@ -15,15 +15,16 @@
   </select>
 
   <label for="vendor_select">Select Vendor:</label>
-  <select class="" name="vendor_id" id="vendor_select">
+  <input type="text" name="vendor_id" list="vendor_select">
+  <datalist id="vendor_select">
     <% @vendors.each do |vendor| %>
     <option value=<%= vendor.id %>><%= vendor.name.capitalize %></option>
           <% end %>
-  </select>
+  </datalist>
+
+
+
 
 <input type="submit" name="" value="submit">
-
-
-
 
 </form>
