@@ -1,1 +1,25 @@
-<p>Total Budget for month <%= @budgets_total %></p>
+<h2>Balance for Year <%= @year %> Month <%= @month %></h2>
+
+<p>Total budget assigned for this month is £<%= @budget_total %></p>
+<p>Total spending for this month is £<%= @transaction_total %></p>
+
+<% if @transaction_total > @budget_total %>
+<p>You have exceeded your budget this month by £<%= @transaction_total - @budget_total %></p>
+<% else %>
+<p>You still have £<%= @budget_total - @transaction_total %> remaining to spend this month</p>
+<% end %>
+
+
+<h3>You have assigned budgets for the following categories this month</h3>
+<% @budgets.each do |budget| %>
+<p> <%= budget.category.name %> with a budget of <%= budget.amount_set %> and
+spending of <%= budget.total_spend %></p>
+<% end %>
+
+
+
+
+<h3>You have the following transactions this month</h3>
+<% @transactions.each do |transaction| %>
+<p> <%= transaction.transaction_date %> | <%= transaction.amount%> | <%= transaction.category.name %> | <%= transaction.vendor.name %>  </p>
+<% end %>

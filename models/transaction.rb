@@ -108,13 +108,50 @@ def Transaction.all
     return Transaction.new(transaction_hash)
   end
 
+  def Transaction.month(date)
+    parsed_date = Date.parse(date)
+    return parsed_date.strftime("%m")
+  end
+
+  def Transaction.year(date)
+    parsed_date = Date.parse(date)
+    return parsed_date.strftime("%Y")
+  end
+
   def Transaction.find_by_month_year(date)
-    sql = "SELECT * FROM transactions
-    WHERE EXTRACT(MONTH FROM transaction_date) = $1"
-    hashes = SqlRunner.run(sql, [date])
+    parsed_date = Date.parse(date)
+    year = parsed_date.strftime("%Y")
+    month = parsed_date.strftime("%m")
+    sql = "select * from transactions where extract(month
+    from transaction_date) = $1 and
+    extract(year from transaction_date) = $2;"
+    hashes = SqlRunner.run(sql, [month, year])
     return hashes.map {
       |transaction| Transaction.new(transaction) }
     end
+
+
+    def Transaction.total_by_month_year(date)
+      transaction_objects = Transaction.find_by_month_year(date)
+      transaction_array = transaction_objects.map { |transaction|
+        transaction.amount }
+      counter = 0.0
+      transaction_array.each { |transaction| counter += transaction }
+      return counter
+    end
+
+  
+
+
+
+    #
+    # def Transaction.find_by_month_year(date)
+    #   sql = "SELECT * FROM transactions
+    #   WHERE EXTRACT(MONTH FROM transaction_date) = $1"
+    #   hashes = SqlRunner.run(sql, [date])
+    #   return hashes.map {
+    #     |transaction| Transaction.new(transaction) }
+    #   end
 
     def Transaction.find_by_category(category)
       sql = "SELECT * FROM transactions INNER JOIN categories

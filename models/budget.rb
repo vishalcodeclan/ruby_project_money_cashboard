@@ -1,5 +1,6 @@
 require_relative('../db/sql_runner')
 require('pry')
+require('date')
 
 class Budget
 
@@ -99,6 +100,16 @@ class Budget
     return result2
   end
 
+  def Budget.return_unique_month_array
+
+    array_dates = Budget.unique_dates_string
+    result = array_dates.map { |date2| date2.strftime("%Y-%m")}
+    # return result[0].to_i
+    # result1 = result.map { |date| date.to_i }
+    return result
+    # return result1
+    # return result1[0]
+  end
 
 
   # def Budget.find_date_range(start_month, end_month)
@@ -134,6 +145,8 @@ class Budget
     end
   end
 
+
+
   # def Budget.full_view
   #   sql = "select * from transactions inner join
   #   budgets ON transactions.category_id =
@@ -141,5 +154,50 @@ class Budget
   #   ON vendors.id = transactions.vendor_id
   #   INNER JOIN categories ON categories.id =
   #   transactions.category_id;"
+
+
+  def total_spend
+    parsed_date = Date.parse(@start_date)
+    year = parsed_date.strftime("%Y")
+    month = parsed_date.strftime("%m")
+    # year = @start_date.strftime("%Y")
+    # month = @start_date.strftime("%m")
+    sql = "select * from transactions where extract(month
+    from transaction_date) = $1 and
+    extract(year from transaction_date) = $2 and category_id = $3"
+    hashes = SqlRunner.run(sql, [month, year, @category_id])
+    result = hashes.map {
+      |transaction| Transaction.new(transaction) }
+    transaction_array = result.map { |transaction|
+        transaction.amount }
+    counter = 0.0
+    transaction_array.each { |transaction| counter += transaction }
+    return counter
+  end
+
+
+  # def Transaction.find_by_month_year(date)
+  #   parsed_date = Date.parse(date)
+  #   year = parsed_date.strftime("%Y")
+  #   month = parsed_date.strftime("%m")
+  #   sql = "select * from transactions where extract(month
+  #   from transaction_date) = $1 and
+  #   extract(year from transaction_date) = $2;"
+  #   hashes = SqlRunner.run(sql, [month, year])
+  #   return hashes.map {
+  #     |transaction| Transaction.new(transaction) }
+  #   end
+  #
+  #
+  #   def Transaction.total_by_month_year(date)
+  #     transaction_objects = Transaction.find_by_month_year(date)
+  #     transaction_array = transaction_objects.map { |transaction|
+  #       transaction.amount }
+  #     counter = 0.0
+  #     transaction_array.each { |transaction| counter += transaction }
+  #     return counter
+  #   end
+
+
 
 end

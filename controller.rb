@@ -23,9 +23,12 @@ get '/?' do
 end
 
 get '/balance' do
-@transactions = Transaction.find_by_month_year(params)
-@budgets_total = Budget.total_by_month_year(params)
-@budgets = Budget.find_by_month_year(params)
+@year = Transaction.year(params[:start_date])
+@month = Transaction.month(params[:start_date])
+@budget_total = Budget.total_by_month_year(params[:start_date])
+@budgets = Budget.find_by_month_year(params[:start_date])
+@transactions = Transaction.find_by_month_year(params[:start_date])
+@transaction_total = Transaction.total_by_month_year(params[:start_date])
 erb(:balance)
 end
 
