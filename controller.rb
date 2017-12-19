@@ -6,12 +6,35 @@ require_relative('models/category.rb')
 require_relative('models/transaction.rb')
 require_relative('models/vendor.rb')
 
-get '/balance' do
-  @transactions = Transaction.all
-  @budgets = Budget.all
-  @categories = Category.all
-  erb(:"balance/index")
+# get '/balance' do
+#   @transactions = Transaction.all
+#   @budgets = Budget.all
+#   @categories = Category.all
+#   erb(:"balance/index")
+# end
+
+get '/?' do
+  # array_hashes = Budget.all
+  # array1 = array_hashes.map { |budget| budget["start_date"]}
+  # p  array1
+  # @budgets = array1.uniq
+  @unique_year_months = Budget.unique_dates_string
+  erb(:home)
 end
+
+get '/balance' do
+@transactions = Transaction.find_by_month_year(params)
+@budgets_total = Budget.total_by_month_year(params)
+@budgets = Budget.find_by_month_year(params)
+erb(:balance)
+end
+
+# get '/balance' do
+#   @transactions = Transaction.all
+#   @budgets = Budget.all
+#   @categories = Category.all
+#   erb(:"balance/index")
+# end
 
 get '/balance/month/:month' do
   @transaction_total_month = Transaction.total_amount_spent_month(params[:month])
@@ -26,6 +49,7 @@ get '/balance/months/:start/:end' do
 end
 
 get '/transactions' do
+
   @transactions = Transaction.all
   erb(:"transactions/index")
 end

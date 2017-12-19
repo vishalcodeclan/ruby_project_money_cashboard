@@ -34,7 +34,7 @@ class Category
 
   def Category.find(id)
     sql = "SELECT * FROM categories WHERE id = $1"
-    category_hash = SqlRunner(sql, [id])
+    category_hash = SqlRunner.run(sql, [id])
     return Category.new(category_hash.first)
   end
 

@@ -9,7 +9,7 @@ class Transaction
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @transaction_date = options['transaction_date']
-    @amount = options['amount'].to_i
+    @amount = options['amount'].to_f
     @category_id = options['category_id'].to_i
     @vendor_id = options['vendor_id'].to_i
   end
@@ -69,8 +69,6 @@ class Transaction
           |budget| Budget.new(budget) }
           for budget in budgets
             if budget.category_id == @category_id &&
-              (@transaction_date >= budget.start_date) &&
-              (@transaction_date <= budget.end_date) &&
               @amount < (budget.amount_set - Transaction.total_by_category(@category_id))
               return true
             end
@@ -110,10 +108,10 @@ def Transaction.all
     return Transaction.new(transaction_hash)
   end
 
-  def Transaction.find_by_month(month)
+  def Transaction.find_by_month_year(date)
     sql = "SELECT * FROM transactions
     WHERE EXTRACT(MONTH FROM transaction_date) = $1"
-    hashes = SqlRunner.run(sql, [month])
+    hashes = SqlRunner.run(sql, [date])
     return hashes.map {
       |transaction| Transaction.new(transaction) }
     end
@@ -151,7 +149,7 @@ def Transaction.all
         return SqlRunner.run(sql).first['sum'].to_i
       end
 
-      def Transaction.total
+      def Transaction.total_amount_budget_exists
         sql = "SELECT * from transactions INNER JOIN budgets
         ON transactions.category_id = budgets.category_id"
         hashes = SqlRunner.run(sql)

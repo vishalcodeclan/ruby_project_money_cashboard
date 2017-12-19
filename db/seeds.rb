@@ -61,45 +61,39 @@ v11.save
 
 b1 = Budget.new({
   "amount_set" => 100,
-  "start_date" => Date.new(2017,3,1),
-  "end_date" => Date.new(2017,3,30),
+  "start_date" => Date.new(2017,1),
   "category_id" => c1.id
   })
 
   b2 = Budget.new({
     "amount_set" => 200,
-    "start_date" => Date.new(2017,1,1),
-    "end_date" => Date.new(2017,1,30),
+    "start_date" => Date.new(2017,1),
     "category_id" => c2.id
     })
 
     b3 = Budget.new({
       "amount_set" => 300,
-      "start_date" => Date.new(2017,1,1),
-      "end_date" => Date.new(2017,1,30),
+      "start_date" => Date.new(2017,1),
       "category_id" => c3.id
       })
 
       b4 = Budget.new({
         "amount_set" => 300,
-        "start_date" => Date.new(2017,4,1),
-        "end_date" => Date.new(2017,4,28),
-        "category_id" => c1.id
+        "start_date" => Date.new(2017,2),
+        "category_id" => c4.id
         })
 
         b5 = Budget.new({
           "amount_set" => 300,
-          "start_date" => Date.new(2017,3,1),
-          "end_date" => Date.new(2017,3,28),
-          "category_id" => c3.id
+          "start_date" => Date.new(2017,2),
+          "category_id" => c5.id
           })
 
-          b6 = Budget.new({
-            "amount_set" => 300,
-            "start_date" => Date.new(2017,3,1),
-            "end_date" => Date.new(2017,2,28),
-            "category_id" => c4.id
-            })
+          # b6 = Budget.new({
+          #   "amount_set" => 300,
+          #   "start_date" => Date.new(2017,2),
+          #   "category_id" => c6.id
+          #   })
 
 
 
@@ -110,73 +104,73 @@ b2.save
 b3.save
 b4.save
 b5.save
-b6.save
+# b6.save
 
 t1 = Transaction.new({
   "transaction_date" => Date.new(2017,1,2),
-  "amount" => 20,
+  "amount" => 20.44,
   "category_id" => c1.id,
   "vendor_id" => v1.id
   })
 
   t2 = Transaction.new({
     "transaction_date" => Date.new(2017,1,2),
-    "amount" => 55,
+    "amount" => 55.33,
     "category_id" => c1.id,
     "vendor_id" => v2.id
     })
   t3 = Transaction.new({
     "transaction_date" => Date.new(2017,1,3),
-    "amount" => 50,
+    "amount" => 50.11,
     "category_id" => c1.id,
     "vendor_id" => v3.id
     })
   t4 = Transaction.new({
     "transaction_date" => Date.new(2017,1,4),
-    "amount" => 1000,
+    "amount" => 1000.65,
     "category_id" => c2.id,
     "vendor_id" => v4.id
     })
   t5 = Transaction.new({
     "transaction_date" => Date.new(2017,1,5),
-    "amount" => 40,
+    "amount" => 40.79,
     "category_id" => c2.id,
     "vendor_id" => v5.id
     })
   t6 = Transaction.new({
     "transaction_date" => Date.new(2017,2,6),
-    "amount" => 35,
+    "amount" => 35.79,
     "category_id" => c2.id,
     "vendor_id" => v6.id
     })
   t7 = Transaction.new({
     "transaction_date" => Date.new(2017,2,7),
-    "amount" => 45,
+    "amount" => 45.21,
     "category_id" => c2.id,
     "vendor_id" => v7.id
     })
   t8 = Transaction.new({
     "transaction_date" => Date.new(2017,2,8),
-    "amount" => 300,
+    "amount" => 300.41,
     "category_id" => c3.id,
     "vendor_id" => v8.id
     })
   t9 = Transaction.new({
     "transaction_date" => Date.new(2017,2,9),
-    "amount" => 250,
-    "category_id" => c3.id,
+    "amount" => 250.31,
+    "category_id" => c8.id,
     "vendor_id" => v9.id
     })
   t10 = Transaction.new({
     "transaction_date" => Date.new(2017,3,10),
-    "amount" => 200,
-    "category_id" => c3.id,
+    "amount" => 200.21,
+    "category_id" => c8.id,
     "vendor_id" => v10.id
     })
   t11 = Transaction.new({
     "transaction_date" => Date.new(2017,3,11),
-    "amount" => 150,
-    "category_id" => c4.id,
+    "amount" => 150.55,
+    "category_id" => c8.id,
     "vendor_id" => v11.id
     })
 
@@ -192,7 +186,7 @@ t9.save
 t10.save
 t11.save
 
-c7.budget
+
 
 # Transaction.find_date_range('2017-01-01', '2017-02-01')
 

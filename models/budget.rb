@@ -6,19 +6,17 @@ class Budget
   attr_reader :id, :amount_set, :start_date, :end_date, :category_id, :total
 
   def initialize(options)
-    p options
     @id = options['id'].to_i if options['id']
-    @amount_set = options['amount_set'].to_i
+    @amount_set = options['amount_set'].to_f
     @start_date = options['start_date']
-    @end_date= options['end_date']
     @category_id = options['category_id'].to_i
   end
 
   def save
     sql = "INSERT INTO budgets
-    (amount_set, start_date, end_date, category_id)
-    VALUES ($1, $2, $3, $4) RETURNING *"
-    values = [@amount_set, @start_date, @end_date, @category_id]
+    (amount_set, start_date, category_id)
+    VALUES ($1, $2, $3) RETURNING *"
+    values = [@amount_set, @start_date, @category_id]
     @id = SqlRunner.run(sql, values).first['id'].to_i
   end
 
@@ -30,9 +28,9 @@ class Budget
 
   def update
     sql = "UPDATE budgets SET
-    (amount_set, start_date, end_date, category_id)
+    (amount_set, start_date, category_id)
     = ($1, $2, $3, $4) WHERE id = $5"
-    values = [@amount_set, @start_date, @end_date, @category_id,  @id]
+    values = [@amount_set, @start_date, @category_id,  @id]
     SqlRunner.run(sql, values)
   end
 
@@ -66,34 +64,57 @@ class Budget
     return SqlRunner.run(sql).first['sum'].to_i
   end
 
-  def Budget.monthly(month)
+  def Budget.monthly(date)
     sql = "SELECT SUM(amount_set) FROM budgets
-    WHERE EXTRACT(MONTH FROM end_date) = $1"
-    return SqlRunner.run(sql, [month]).first['sum'].to_i
+    WHERE start_date = $1"
+    return SqlRunner.run(sql, [date]).first['sum'].to_i
   end
 
-  def Budget.find_by_month(month)
+  def Budget.find_by_month_year(date)
     sql = "SELECT * FROM budgets
-    WHERE EXTRACT(MONTH FROM start_date) = $1"
-    hashes = SqlRunner.run(sql, [month])
-    return hashes.map {
+    WHERE start_date = $1"
+    hashes = SqlRunner.run(sql, [date])
+    result = hashes.map {
       |budget| Budget.new(budget) }
+      return result
   end
 
-  def Budget.find_date_range(start_month, end_month)
-    sql = "SELECT * FROM budgets WHERE
-    start_date >= $1 AND end_date <= $2;"
-    hashes = SqlRunner.run(sql, [start_month, end_month])
-    return hashes.map {
-      |transaction| Budget.new(transaction) }
-    end
+  def Budget.total_by_month_year(date)
+    budgets_objects = Budget.find_by_month_year(date)
+    budgets_array = budgets_objects.map { |budget| budget.amount_set }
+    counter = 0.0
+    budgets_array.each { |budget| counter += budget }
+    return counter
+  end
 
-    def Budget.total_date_range(start_month, end_month)
-      sql = "SELECT SUM(amount_set) FROM budgets WHERE
-      EXTRACT(MONTH FROM start_date) >= $1 AND
-      EXTRACT(MONTH FROM end_date) <= $2;"
-      return SqlRunner.run(sql, [start_month, end_month]).first['sum'].to_i
-      end
+  def Budget.unique_dates_string
+    sql = "SELECT * FROM budgets"
+    result = SqlRunner.run(sql)
+    result1 = result.map {
+      |budget| Budget.new(budget) }
+    array_dates = result1.map { |budget| budget.start_date}
+    unique_dates = array_dates.uniq
+    result2 = unique_dates.map { |date1| Date.parse(date1)}
+    # result3 = result2.map { |date2| date2.strftime("%Y-%m")}
+    return result2
+  end
+
+
+
+  # def Budget.find_date_range(start_month, end_month)
+  #   sql = "SELECT * FROM budgets WHERE
+  #   start_date >= $1 AND end_date <= $2;"
+  #   hashes = SqlRunner.run(sql, [start_month, end_month])
+  #   return hashes.map {
+  #     |transaction| Budget.new(transaction) }
+  #   end
+  #
+  #   def Budget.total_date_range(start_month, end_month)
+  #     sql = "SELECT SUM(amount_set) FROM budgets WHERE
+  #     EXTRACT(MONTH FROM start_date) >= $1 AND
+  #     EXTRACT(MONTH FROM end_date) <= $2;"
+  #     return SqlRunner.run(sql, [start_month, end_month]).first['sum'].to_i
+  #     end
 
   def above_budget(month)
     sql = "SELECT * from transactions INNER JOIN budgets

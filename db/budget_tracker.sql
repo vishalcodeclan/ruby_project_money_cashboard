@@ -16,16 +16,15 @@ CREATE TABLE vendors (
 
 CREATE TABLE budgets (
   id SERIAL8 PRIMARY KEY,
-  amount_set INT8,
+  amount_set NUMERIC,
   start_date DATE,
-  end_date DATE,
   category_id INT8 references categories(id)
 );
 
 CREATE TABLE transactions (
   id SERIAL8 PRIMARY KEY,
   transaction_date DATE,
-  amount INT8,
+  amount NUMERIC,
   category_id INT8 references categories(id),
   vendor_id INT8 references vendors(id)
 );
