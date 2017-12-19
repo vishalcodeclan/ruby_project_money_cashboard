@@ -107,6 +107,24 @@ b1 = Budget.new({
                 "category_id" => c4.id
                 })
 
+                b9 = Budget.new({
+                  "amount_set" => 300,
+                  "start_date" => Date.new(2018,1),
+                  "category_id" => c5.id
+                  })
+
+                  b10 = Budget.new({
+                    "amount_set" => 500,
+                    "start_date" => Date.new(2018,1),
+                    "category_id" => c5.id
+                    })
+
+                    b11 = Budget.new({
+                      "amount_set" => 600,
+                      "start_date" => Date.new(2018,2),
+                      "category_id" => c5.id
+                      })
+
 
 
 
@@ -119,6 +137,9 @@ b5.save
 b6.save
 b7.save
 b8.save
+b9.save
+b10.save
+b11.save
 
 t1 = Transaction.new({
   "transaction_date" => Date.new(2017,1,2),
@@ -188,6 +209,27 @@ t1 = Transaction.new({
     "vendor_id" => v11.id
     })
 
+    t12 = Transaction.new({
+      "transaction_date" => Date.new(2018,1,11),
+      "amount" => 15.55,
+      "category_id" => c5.id,
+      "vendor_id" => v11.id
+      })
+
+      t13 = Transaction.new({
+        "transaction_date" => Date.new(2018,1,11),
+        "amount" => 15.55,
+        "category_id" => c5.id,
+        "vendor_id" => v11.id
+        })
+
+        t14 = Transaction.new({
+          "transaction_date" => Date.new(2018,2,11),
+          "amount" => 15.55,
+          "category_id" => c5.id,
+          "vendor_id" => v11.id
+          })
+
 t1.save
 t2.save
 t3.save
@@ -199,6 +241,9 @@ t8.save
 t9.save
 t10.save
 t11.save
+t12.save
+t13.save
+t14.save
 
 
 

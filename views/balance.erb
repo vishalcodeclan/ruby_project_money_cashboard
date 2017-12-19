@@ -10,14 +10,39 @@
 <% end %>
 
 
-<h3>You have assigned budgets for the following categories this month</h3>
+<h2>You have assigned budgets for the following categories this month</h3>
 <% @budgets.each do |budget| %>
 <p> <%= budget.category.name %> with a budget of <%= budget.amount_set %> and
 spending of <%= budget.total_spend %></p>
 <% end %>
 
+<h2>You have assigned budgets for the following categories this month</h3>
+<% @budgets.each do |budget| %>
+<p> <%= budget.category.name %> with a budget of <%= budget.amount_set %> and
+spending of <%= budget.total_spend %></p>
+<% end %>
 
+<h2>Metrics</h2>
 
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Category Budget</th>
+    <th>Category Transaction Total</th>
+    <th>% Budget Unspent</th>
+    <th>Budget Unspent</th>
+  </tr>
+  <% @budgets.each do |budget| %>
+  <tr>
+    <td><%= budget.category.name %></td>
+    <td>£<%= budget.amount_set %></td>
+    <td>£<%= budget.total_spend %></td>
+    <td><%= (budget.total_spend / budget.amount_set) * 100%>%</td>
+    <td>£<%=  budget.amount_set - budget.total_spend %></td>
+  </tr>
+  <% end %>
+
+</table>
 
 <h3>You have the following transactions this month</h3>
 <% @transactions.each do |transaction| %>

@@ -1,0 +1,21 @@
+<form class="" action="/balance2" method="get">
+
+<label for="date_select">Select Start Month and Year:</label>
+<select class="" name="start_date" id="date_select">
+  <% @unique_year_months.each do |date| %>
+  <option value=<%= date %>><%= date.strftime("%Y-%m") %></option>
+        <% end %>
+</select>
+
+
+<label for="date_select">Select End Month and Year:</label>
+<select class="" name="end_date" id="date_select">
+  <% @unique_year_months.each do |date| %>
+  <option value=<%= date %>><%= date.strftime("%Y-%m") %></option>
+        <% end %>
+</select>
+
+
+<input type="submit" name="" value="submit">
+
+</form>

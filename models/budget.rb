@@ -80,6 +80,27 @@ class Budget
       return result
   end
 
+  def Budget.find_multiple_by_month_year(date1, date2)
+    sql = "SELECT * FROM budgets
+    WHERE start_date >= $1 and start_date <= $2"
+    hashes = SqlRunner.run(sql, [date1, date2])
+    result = hashes.map {
+      |budget| Budget.new(budget) }
+      return result
+  end
+
+
+
+  # def Budget.find_multiple_by_month_year(date1, date2)
+  #   parsed_date1 = Date.parse(date1)
+  #   parsed_date2 = Date.parse(date2)
+  #
+  #   year = parsed_date.strftime("%Y")
+  #   month = parsed_date.strftime("%m")
+  #
+  #
+  # end
+
   def Budget.total_by_month_year(date)
     budgets_objects = Budget.find_by_month_year(date)
     budgets_array = budgets_objects.map { |budget| budget.amount_set }
@@ -87,6 +108,15 @@ class Budget
     budgets_array.each { |budget| counter += budget }
     return counter
   end
+
+  def Budget.total_multiple_by_month_year(date1, date2)
+    budgets_objects = Budget.find_multiple_by_month_year(date1, date2)
+    budgets_array = budgets_objects.map { |budget| budget.amount_set }
+    counter = 0.0
+    budgets_array.each { |budget| counter += budget }
+    return counter
+  end
+
 
   def Budget.unique_dates_string
     sql = "SELECT * FROM budgets"

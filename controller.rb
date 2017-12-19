@@ -32,6 +32,23 @@ get '/balance' do
 erb(:balance)
 end
 
+get '/home' do
+  @unique_year_months = Budget.unique_dates_string
+  erb(:home2)
+end
+
+get '/balance2' do
+  @year1 = Transaction.year(params[:start_date])
+  @month1 = Transaction.month(params[:start_date])
+  @year2 = Transaction.year(params[:end_date])
+  @month2= Transaction.month(params[:end_date])
+  # @budget_total = Budget.total_by_month_year(params[:start_date], params[:end_date])
+  # @budgets = Budget.find_by_month_year(params[:start_date], params[:end_date])
+  @transactions = Transaction.find_multiple_by_month_year(params[:start_date], params[:end_date])
+  @transaction_total = Transaction.total_multiple_by_month_year(params[:start_date], params[:end_date])
+  erb(:balance2)
+end
+
 # get '/balance' do
 #   @transactions = Transaction.all
 #   @budgets = Budget.all

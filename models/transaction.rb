@@ -131,6 +131,23 @@ def Transaction.all
     end
 
 
+    def Transaction.find_multiple_by_month_year(date1, date2)
+      parsed_date1 = Date.parse(date1)
+      year1 = parsed_date1.strftime("%Y")
+      month1 = parsed_date1.strftime("%m")
+      parsed_date2 = Date.parse(date2)
+      year2 = parsed_date2.strftime("%Y")
+      month2 = parsed_date2.strftime("%m")
+      sql = "select * from transactions where extract
+      (month from transaction_date) >= $1
+      and extract(month from transaction_date)
+      <= $2 and  extract(year from transaction_date)
+      >= $3 and extract(year from transaction_date) <= $4;"
+      hashes = SqlRunner.run(sql, [month1, month2, year1, year2])
+      return hashes.map {
+        |transaction| Transaction.new(transaction) }
+      end
+
     def Transaction.total_by_month_year(date)
       transaction_objects = Transaction.find_by_month_year(date)
       transaction_array = transaction_objects.map { |transaction|
@@ -140,7 +157,15 @@ def Transaction.all
       return counter
     end
 
-  
+    def Transaction.total_multiple_by_month_year(date1, date2)
+      transaction_objects = Transaction.find_multiple_by_month_year(date1, date2)
+      transaction_array = transaction_objects.map { |transaction|
+        transaction.amount }
+      counter = 0.0
+      transaction_array.each { |transaction| counter += transaction }
+      return counter
+    end
+
 
 
 
