@@ -245,8 +245,8 @@ t12.save
 t13.save
 t14.save
 
-
-
+# Transaction.unique_dates_string
+# Transaction.find_multiple_by_month_year("2017-01-01", "2019-01-01")
 # Transaction.find_date_range('2017-01-01', '2017-02-01')
 
 binding.pry

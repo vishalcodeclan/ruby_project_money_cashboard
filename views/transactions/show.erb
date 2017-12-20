@@ -1,7 +1,10 @@
-<h2>Category: <%= @transaction.category.name %></h2>
+<h2>Category: <%= @transaction.id %></h2>
 
+<p2>Category: <%= @transaction.category.name %></h2>
 <p>Amount: <%= @transaction.amount %></p>
 <p>Date: <%= @transaction.transaction_date %></p>
+<p>Date: <%= @transaction.vendor.name %></p>
+
 
 <a href="/transactions/<%= @transaction.id%>/edit">Edit</a>
 <form class="" action="/transactions/<%= @transaction.id %>/delete"

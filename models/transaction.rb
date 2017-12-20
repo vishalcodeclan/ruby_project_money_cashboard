@@ -131,21 +131,33 @@ def Transaction.all
 
 
     def Transaction.find_multiple_by_month_year(date1, date2)
-      parsed_date1 = Date.parse(date1)
-      year1 = parsed_date1.strftime("%Y")
-      month1 = parsed_date1.strftime("%m")
-      parsed_date2 = Date.parse(date2)
-      year2 = parsed_date2.strftime("%Y")
-      month2 = parsed_date2.strftime("%m")
-      sql = "select * from transactions where extract
-      (month from transaction_date) >= $1
-      and extract(month from transaction_date)
-      <= $2 and  extract(year from transaction_date)
-      >= $3 and extract(year from transaction_date) <= $4;"
-      hashes = SqlRunner.run(sql, [month1, month2, year1, year2])
-      return hashes.map {
+      sql = "select * from transactions where
+      transaction_date >= $1 and transaction_date <= $2;"
+      hashes = SqlRunner.run(sql, [date1, date2])
+      result_final = hashes.map {
         |transaction| Transaction.new(transaction) }
+      return result_final
       end
+
+      # def Transaction.find_multiple_by_month_year(date1, date2)
+      #   parsed_date1 = Date.parse(date1)
+      #   year1 = parsed_date1.strftime("%Y")
+      #   month1 = parsed_date1.strftime("%m")
+      #   parsed_date2 = Date.parse(date2)
+      #   year2 = parsed_date2.strftime("%Y")
+      #   month2 = parsed_date2.strftime("%m")
+      #   sql = "select * from transactions where extract
+      #   (month from transaction_date) >= $1
+      #   and extract(month from transaction_date)
+      #   <= $2 and  extract(year from transaction_date)
+      #   >= $3 and extract(year from transaction_date) <= $4;"
+      #   hashes = SqlRunner.run(sql, [month1, month2, year1, year2])
+      #   result_final = hashes.map {
+      #     |transaction| Transaction.new(transaction) }
+      #   binding.pry
+      #
+      #   return result_final
+      #   end
 
     def Transaction.total_by_month_year(date)
       transaction_objects = Transaction.find_by_month_year(date)
@@ -165,7 +177,30 @@ def Transaction.all
       return counter
     end
 
+    def Transaction.unique_dates_string
+      sql = "SELECT * FROM transactions"
+      result = SqlRunner.run(sql)
+      result1 = result.map {
+        |transaction| Transaction.new(transaction) }
+      array_dates = result1.map { |transaction| transaction.transaction_date}
+      new_array_dates = array_dates.each.uniq { |date| date[0,7]}
+      unique_dates = new_array_dates.uniq
+      result2 = unique_dates.map { |date1| Date.parse(date1)}
+      # result3 = result2.map { |date2| date2.strftime("%Y-%m")}
+      # array_dates.each.uniq { |date| date[0,7] }
+      return result2
+    end
 
+    def Transaction.return_unique_month_array
+
+      array_dates = Transaction.unique_dates_string
+      result = array_dates.
+      # return result[0].to_i
+      # result1 = result.map { |date| date.to_i }
+      return result.uniq
+      # return result1
+      # return result1[0]
+    end
 
 
     #
@@ -177,20 +212,29 @@ def Transaction.all
     #     |transaction| Transaction.new(transaction) }
     #   end
 
-    def Transaction.find_by_category(category)
-      sql = "SELECT * FROM transactions INNER JOIN categories
-      ON transactions.category_id = categories.id
-      WHERE name = $1"
-      hashes = SqlRunner.run(sql, [category])
+    def Transaction.find_by_category(category_id)
+      sql = "select * from transactions inner join
+      categories on transactions.category_id = categories.id
+      where category_id = $1;"
+      hashes = SqlRunner.run(sql, [category_id])
       return hashes.map {
         |transaction| Transaction.new(transaction)}
       end
 
-      def Transaction.total_by_category(category)
+      # def Transaction.find_by_category(category)
+      #   sql = "SELECT * FROM transactions INNER JOIN categories
+      #   ON transactions.category_id = categories.id
+      #   WHERE name = $1"
+      #   hashes = SqlRunner.run(sql, [category])
+      #   return hashes.map {
+      #     |transaction| Transaction.new(transaction)}
+      #   end
+
+      def Transaction.total_by_category(category_id)
         sql = "SELECT SUM(amount) FROM transactions INNER JOIN categories
         ON transactions.category_id = categories.id
-        WHERE name = $1"
-        return SqlRunner.run(sql, [category]).first['sum'].to_i
+        WHERE category_id = $1"
+        return SqlRunner.run(sql, [category_id]).first['sum'].to_f
       end
 
 
