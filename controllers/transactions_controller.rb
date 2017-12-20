@@ -19,9 +19,17 @@ get('/transactions/new') do
 end
 
 post '/transactions' do
-  transaction = Transaction.new(params)
-    transaction.save
-    redirect to('/transactions')
+  vendor = Vendor.new(params)
+  vendor.save
+  params_new = {
+    "transaction_date" => params[:transaction_date],
+    "amount" => params[:amount],
+    "category_id" => params[:category_id],
+    "vendor_id" => vendor.id
+  }
+  transaction = Transaction.new(params_new)
+  transaction.save
+  redirect to ('/transactions')
 end
 
 get '/transactions/:id' do

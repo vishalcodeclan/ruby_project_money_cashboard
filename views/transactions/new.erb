@@ -1,11 +1,11 @@
 <form class="" action="/transactions" method="post">
   <label for="transaction_date_input">Select Date:</label>
-  <input id="transaction_date_input" type="date"
+  <input required id="transaction_date_input" type="date"
   name="transaction_date" value="">
 
   <label for="amount_input">Transaction Amount:</label>
   <input id="amount_input" type="number"
-  name="amount" value="">
+  name="amount" value="" min="1" required>
 
   <label for="category_select">Select Category:</label>
   <select class="" name="category_id" id="category_select">
@@ -15,10 +15,10 @@
   </select>
 
   <label for="vendor_select">Select Vendor:</label>
-  <input type="text" name="vendor_id" list="vendor_select">
+  <input required type="text" name="name" list="vendor_select">
   <datalist id="vendor_select">
     <% @vendors.each do |vendor| %>
-    <option value=<%= vendor.id %>><%= vendor.name.capitalize %></option>
+    <option value=<%= vendor.name %>><%= vendor.name.capitalize %></option>
           <% end %>
   </datalist>
 
