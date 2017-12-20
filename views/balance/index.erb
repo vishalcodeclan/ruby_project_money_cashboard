@@ -1,0 +1,37 @@
+<h2>Balance</h2>
+
+<p><a href="/budgets">Total Budget: <%= Budget.total %></a></p>
+<p><a href="/transactions">Total Spending: <%= Transaction.total_amount_spent %></p></a>
+<p>Net: <%= Budget.total - Transaction.total_amount_spent %></p>
+
+<% if Transaction.total_amount_spent > Budget.total %>
+<%= "Warning, total expenditure is over budget by
+#{Budget.total.to_i - Transaction.total_amount_spent.to_i}" %>
+<% else %>
+<%= "Total expenditure is below budget by
+#{Budget.total - Transaction.total_amount_spent}" %>
+<% end %>
+
+<h3>Amount spent by category</h2>
+
+<table>
+  <tr>
+    <th>Transaction Category</th>
+    <th>Transaction Amount</th>
+      <th>Budget Assigned</th>
+  </tr>
+  <% @categories.each do |category| %>
+  <tr>
+    <td><a href="/transactions/category/<%= category.name %>">
+    <%= category.name %></td>
+    <td><%= category.amount_spent %></td>
+    <td><%= category.budget.amount_set if category.budget %></td>
+  </tr>
+  <% end %>
+
+
+
+
+
+
+</table>

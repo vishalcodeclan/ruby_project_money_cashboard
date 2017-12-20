@@ -228,6 +228,21 @@ class Budget
   #     return counter
   #   end
 
+  def Budget.find_by_category(category_id)
+    sql = "select * from budgets inner join
+    categories on budgets.category_id = categories.id
+    where category_id = $1;"
+    hashes = SqlRunner.run(sql, [category_id])
+    return hashes.map {
+      |budget| Budget.new(budget)}
+    end
+
+    def Budget.total_by_category(category_id)
+      sql = "SELECT SUM(amount_set) FROM budgets INNER JOIN categories
+      ON budgets.category_id = categories.id
+      WHERE category_id = $1"
+      return SqlRunner.run(sql, [category_id]).first['sum'].to_f
+    end
 
 
 end
