@@ -194,7 +194,7 @@ t1 = Transaction.new({
     "transaction_date" => Date.new(2017,2,9),
     "amount" => 25.31,
     "category_id" => c5.id,
-    "vendor_id" => v9.id
+    "vendor_id" => v8.id
     })
   t10 = Transaction.new({
     "transaction_date" => Date.new(2017,3,10),

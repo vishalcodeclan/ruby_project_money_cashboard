@@ -21,8 +21,8 @@ class Vendor
   end
 
   def update
-    sql = "UPDATE vendors set (name) = ($1)"
-    SqlRunner.run(sql, [@name])
+    sql = "UPDATE vendors set name = $1 where id = $2"
+    SqlRunner.run(sql, [@name, @id])
   end
 
   def Vendor.all
@@ -65,6 +65,14 @@ class Vendor
       return false
   end
 
+  def Vendor.any_transactions?(vendor_id)
+    result = Vendor.find_transactions(vendor_id)
+    if result.length > 0
+      return false
+    else
+      return true
+    end
+  end
 
   def Vendor.delete(id)
     sql = "DELETE FROM vendors WHERE id = $1"

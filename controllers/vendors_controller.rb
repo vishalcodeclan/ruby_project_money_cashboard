@@ -33,8 +33,12 @@ get '/vendors/:id' do
 end
 
 post ('/vendors/:id/delete') do
-  Vendor.delete(params[:id])
-  redirect to "/vendors"
+  if Vendor.any_transactions?(params[:id])
+    Vendor.delete(params[:id])
+    redirect to "/vendors"
+  else
+    erb(:"vendors/cannot_delete")
+  end
 end
 
 get '/vendors/:id/edit' do

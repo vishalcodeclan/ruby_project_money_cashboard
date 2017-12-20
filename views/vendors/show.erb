@@ -1,0 +1,7 @@
+<h2>Vendor: <%= @vendor.name %></h2>
+
+<a href="/vendors/<%= @vendor.id%>/edit">Edit</a>
+<form class="" action="/vendors/<%= @vendor.id %>/delete"
+  method="post">
+  <input type="submit" name="" value="Delete">
+</form>
