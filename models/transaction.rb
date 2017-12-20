@@ -62,19 +62,18 @@ class Transaction
       #     end
       #       return false
       #     end
-      def check_budget?
-        sql = "select * from budgets"
-        result = SqlRunner.run(sql)
-        budgets = result.map {
-          |budget| Budget.new(budget) }
-          for budget in budgets
-            if budget.category_id == @category_id &&
-              @amount < (budget.amount_set - Transaction.total_by_category(@category_id))
-              return true
-            end
-          end
-            return false
-          end
+      # def check_budget?
+      #   sql = "select * from budgets"
+      #   result = SqlRunner.run(sql)
+      #   budgets = result.map {
+      #     |budget| Budget.new(budget) }
+      #     for budget in budgets
+      #       if budget.category_id == @category_id
+      #         return true
+      #       end
+      #     end
+      #     return false
+      #   end
 
           # def check_vendor_exists?
           #   sql = "select * from vendors"
