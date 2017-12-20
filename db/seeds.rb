@@ -152,13 +152,13 @@ t1 = Transaction.new({
     "transaction_date" => Date.new(2017,1,2),
     "amount" => 15.50,
     "category_id" => c1.id,
-    "vendor_id" => v2.id
+    "vendor_id" => v1.id
     })
   t3 = Transaction.new({
     "transaction_date" => Date.new(2017,1,3),
     "amount" => 30.50,
     "category_id" => c2.id,
-    "vendor_id" => v3.id
+    "vendor_id" => v1.id
     })
   t4 = Transaction.new({
     "transaction_date" => Date.new(2017,1,4),

@@ -1,8 +1,7 @@
 <h2>Category: <%= @budget.category.name %></h2>
 
 <p>Amount: <%= @budget.amount_set %></p>
-<p>Date: <%= @budget.start_date %></p>
-<p>Date: <%= @budget.end_date %></p>
+<p>Date: <%= @budget.start_date[0,7] %></p>
 
 <a href="/budgets/<%= @budget.id%>/edit">Edit</a>
 <form class="" action="/budgets/<%= @budget.id %>/delete"

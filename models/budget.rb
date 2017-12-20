@@ -30,7 +30,7 @@ class Budget
   def update
     sql = "UPDATE budgets SET
     (amount_set, start_date, category_id)
-    = ($1, $2, $3, $4) WHERE id = $5"
+    = ($1, $2, $3) WHERE id = $4"
     values = [@amount_set, @start_date, @category_id,  @id]
     SqlRunner.run(sql, values)
   end

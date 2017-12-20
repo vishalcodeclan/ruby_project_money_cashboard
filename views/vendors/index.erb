@@ -1,0 +1,31 @@
+<h2>All Vendors</h2>
+
+<form class="" action="/vendors/transactions/" method="get">
+
+
+  <label for="vendor_select">Select Vendor:</label>
+  <select class="" name="id" id="vendor_select">
+    <% @vendors.each do |vendor| %>
+    <option value=<%= vendor.id %>><%= vendor.name.capitalize %></option>
+          <% end %>
+  </select>
+
+  <input type="submit" name="" value="submit">
+
+
+</form>
+
+<table>
+  <tr>
+  <th>View</th>
+    <th>Vendor ID</th>
+    <th>Vendor Name</th>
+  </tr>
+  <% @vendors.each do |vendor| %>
+  <tr>
+    <td><a href="/vendors/<%= vendor.id %>">View</a></td>
+    <td><%= vendor.id %></td>
+    <td><%= vendor.name %></td>
+  </tr>
+  <% end %>
+</table>

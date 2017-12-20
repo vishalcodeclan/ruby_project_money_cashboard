@@ -32,6 +32,20 @@ class Vendor
       |vendor| Vendor.new(vendor) }
   end
 
+  def Vendor.find_transactions(vendor_id)
+    sql = "select * from transactions inner join vendors on
+    transactions.vendor_id = vendors.id where vendor_id = $1"
+    hashes = SqlRunner.run(sql, [vendor_id])
+    return hashes.map {
+      |transaction| Transaction.new(transaction)}
+  end
+
+  def Vendor.total_transactions(vendor_id)
+    sql = "select SUM(amount) from transactions inner join vendors on
+    transactions.vendor_id = vendors.id where vendor_id = $1"
+    return SqlRunner.run(sql, [vendor_id]).first['sum'].to_f
+  end
+
   def Vendor.find(id)
     sql = "SELECT * FROM vendors WHERE id = $1"
     vendor_hash = SqlRunner.run(sql, [id])
