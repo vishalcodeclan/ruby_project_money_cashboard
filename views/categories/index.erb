@@ -1,0 +1,31 @@
+<h2>All Categories</h2>
+
+<form class="" action="/categories/transactions/" method="get">
+
+
+  <label for="category_select">Select Category:</label>
+  <select class="" name="id" id="category_select">
+    <% @categories.each do |category| %>
+    <option value=<%= category.id %>><%= category.name.capitalize %></option>
+          <% end %>
+  </select>
+
+  <input type="submit" name="" value="submit">
+
+
+</form>
+
+<table>
+  <tr>
+  <th>View</th>
+    <th>Category ID</th>
+    <th>Category Name</th>
+  </tr>
+  <% @categories.each do |category| %>
+  <tr>
+    <td><a href="/categories/<%= category.id %>">View</a></td>
+    <td><%= category.id %></td>
+    <td><%= category.name %></td>
+  </tr>
+  <% end %>
+</table>

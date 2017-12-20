@@ -62,6 +62,30 @@ class Category
     end
   end
 
+  def Category.find_transactions(category_id)
+    sql = "select * from transactions inner join categories on
+    transactions.category_id = categories.id where category_id = $1"
+    hashes = SqlRunner.run(sql, [category_id])
+    return hashes.map {
+      |transaction| Transaction.new(transaction)}
+  end
+
+  def Category.total_transactions(category_id)
+    sql = "select SUM(amount) from transactions inner join categories on
+    transactions.category_id = categories.id where category_id = $1"
+    return SqlRunner.run(sql, [category_id]).first['sum'].to_f
+  end
+
+
+
+  def Category.any_transactions?(category_id)
+    result = Category.find_transactions(category_id)
+    if result.length > 0
+      return false
+    else
+      return true
+    end
+  end
   # def budget_exist?
   # sql =  "SELECT * FROM budgets where category_id = $1"
   #   budget_hash = SqlRunner.run(sql, [@id])
