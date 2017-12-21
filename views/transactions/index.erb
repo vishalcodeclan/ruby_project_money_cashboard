@@ -1,20 +1,14 @@
 <h2>All Transactions</h2>
 
-<form class="" action="/transactions/date_range" method="get">
+<form class="vishal" action="/transactions/date_range" method="get">
 
-<label for="date_select">Select Start Month and Year:</label>
-<select class="" name="start_date" id="date_select">
-  <% @unique_year_months.each do |date| %>
-  <option value=<%= date %>><%= date%></option>
-        <% end %>
-</select>
+  <label for="transaction_date_input">Select Date:</label>
+  <input required id="transaction_date_input" type="date"
+  name="start_date" value="">
 
-<label for="date_select">Select End Month and Year:</label>
-<select class="" name="end_date" id="date_select">
-  <% @unique_year_months.each do |date| %>
-  <option value=<%= date %>><%= date %></option>
-        <% end %>
-</select>
+  <label for="transaction_date_input">Select Date:</label>
+  <input required id="transaction_date_input" type="date"
+  name="end_date" value="">
 
 <input type="submit" name="" value="submit">
 
@@ -27,16 +21,7 @@
 
 <input type="submit" name="" value="submit" formaction="/transactions/history/category/">
 
-
 </form>
-
-
-
-
-
-
-
-
 
 <table>
   <tr>

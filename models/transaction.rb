@@ -131,12 +131,12 @@ def Transaction.all
 
 
     def Transaction.find_multiple_by_month_year(date1, date2)
-      new_date = Date.parse(date2)
-      end_date = new_date.next_month.prev_day
-      parsed_date = end_date.strftime
+      # new_date = Date.parse(date2)
+      # end_date = new_date.next_month.prev_day
+      # parsed_date = end_date.strftime
       sql = "select * from transactions where
       transaction_date >= $1 and transaction_date <= $2;"
-      hashes = SqlRunner.run(sql, [date1, parsed_date])
+      hashes = SqlRunner.run(sql, [date1, date2])
       result_final = hashes.map {
         |transaction| Transaction.new(transaction) }
       return result_final
@@ -216,6 +216,16 @@ def Transaction.all
       # result3 = result2.map { |date2| date2.strftime("%Y-%m")}
       return result2
     end
+
+    # def Transaction.unique_date_array
+    #   array = Transaction.unique_dates_string
+    #   empty = []
+    #   new_array = array.map { |date|
+    #     if date != empty[0]
+    #       date
+    #
+    #   }
+
 
     # def Transaction.return_array_unique_max_dates
     #   array_date_objects = Transaction.unique_dates_string

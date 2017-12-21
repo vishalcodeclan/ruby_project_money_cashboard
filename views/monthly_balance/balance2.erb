@@ -10,30 +10,25 @@ and Year <%= @year2 %> Month <%= @month2 %></h2>
 <p>You underspent in this date range by £<%= @budget_total - @transaction_total %></p>
 <% end %>
 
-
-<h2>You assigned budgets for the following categories in this date range</h3>
-<% @budgets_hashes.each do |budget| %>
-<p> <%= budget["name"] %> with a budget of <%= budget["budget_amount"].to_f / 2 %> and
-spending of <%= budget["transaction_amount"].to_f / 2 %></p>
-<% end %>
-
 <h2>Metrics</h2>
 
 <table>
   <tr>
+    <th>Year and Month</th>
     <th>Category</th>
     <th>Category Budget</th>
     <th>Category Transaction Total</th>
     <th>% Budget Unspent</th>
     <th>Budget Unspent</th>
   </tr>
-  <% @budgets_hashes.each do |budget| %>
+  <% @budgets.each do |budget| %>
   <tr>
-    <td><%= budget["name"] %></td>
-    <td>£<%= budget["budget_amount"].to_f / 2 %></td>
-    <td>£<%= budget["transaction_amount"].to_f / 2 %></td>
-    <td><%= ((budget["transaction_amount"].to_f / 2) / (budget["budget_amount"].to_f / 2)) * 100%>%</td>
-    <td>£<%=  (budget["budget_amount"].to_f / 2) - (budget["transaction_amount"].to_f / 2) %></td>
+    <td><%= budget.start_date[0,7] %></td>
+    <td><%= budget.category.name %></td>
+    <td>£<%= budget.amount_set %></td>
+    <td>£<%= budget.total_spend %></td>
+    <td><%= (budget.total_spend / budget.amount_set) * 100%>%</td>
+    <td>£<%=  budget.amount_set - budget.total_spend %></td>
   </tr>
   <% end %>
 

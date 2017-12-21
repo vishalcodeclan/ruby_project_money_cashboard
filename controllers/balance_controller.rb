@@ -17,7 +17,7 @@ erb(:"monthly_balance/balance")
 end
 
 get '/home' do
-  @unique_year_months = Budget.unique_dates_string
+  @unique_year_months = Transaction.unique_dates_string
   erb(:"monthly_balance/home2")
 end
 

@@ -3,10 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>Money Cashboard</title>
+    <link href="https://fonts.googleapis.com/css?family=Merriweather|Special+Elite" rel="stylesheet">
+
+
+ <link rel="stylesheet" type="text/css" href="/styles/buttons.css">
+ <link rel="stylesheet" type="text/css" href="/styles/forms.css">
+ <link rel="stylesheet" type="text/css" href="/styles/structure.css">
+ <link rel="stylesheet" type="text/css" href="/styles/tables.css">
   </head>
   <body>
     <nav>
-      <li> <a href="/">Balance by Year and Month</a> </li>
+      <ul>
+              <li> <a href="/">Balance by Year and Month</a> </li>
       <li> <a href="/home">Balance by Date Range</a> </li>
       <li> <a href="/transactions">Transaction History</a> </li>
       <li> <a href="/transactions/new">Add Transaction</a> </li>
@@ -16,6 +24,7 @@
       <li> <a href="/vendors/new">Add Vendor</a> </li>
       <li> <a href="/categories">Category List</a> </li>
       <li> <a href="/categories/new">Add Category</a> </li>
+    </ul>
     </nav>
     <%= yield %>
   </body>

@@ -1,12 +1,9 @@
 <form class="" action="/balance" method="get">
 
-<label for="date_select">Select Month and Year:</label>
-<select class="" name="start_date" id="date_select">
-  <% @unique_year_months.each do |date| %>
-  <option value=<%= date %>><%= date.strftime("%Y-%m") %></option>
-        <% end %>
-</select>
 
+<label for="date_input">Select End Date:</label>
+<input required id="date_input" type="date"
+name="start_date" value="">
 
 <input type="submit" name="" value="submit">
 

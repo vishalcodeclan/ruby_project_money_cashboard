@@ -249,5 +249,7 @@ t14.save
 # Transaction.find_multiple_by_month_year("2017-01-01", "2019-01-01")
 # Transaction.find_date_range('2017-01-01', '2017-02-01')
 
+# Budget.find_by_month_year("2017-01-15")
+# Budget.balance_find_multiple_by_month_year('2017-01-01', '2017-01-30')
 binding.pry
 nil
