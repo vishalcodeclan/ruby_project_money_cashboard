@@ -89,6 +89,17 @@ class Budget
       return result
   end
 
+  def Budget.balance_find_multiple_by_month_year(date1, date2)
+    sql = "select name, sum(amount_set) as budget_amount, sum(amount)
+    as transaction_amount from categories inner join budgets on
+    budgets.category_id = categories.id inner join transactions on
+    transactions.category_id = categories.id  where
+    start_date >= $1 and start_date <= $2
+    and transaction_date >= $3 and transaction_date <= $4
+    group by categories.id;"
+    return SqlRunner.run(sql, [date1, date2, date1, date2])
+  end
+
 
 
   # def Budget.find_multiple_by_month_year(date1, date2)
@@ -243,6 +254,8 @@ class Budget
       WHERE category_id = $1"
       return SqlRunner.run(sql, [category_id]).first['sum'].to_f
     end
+
+
 
 
 end

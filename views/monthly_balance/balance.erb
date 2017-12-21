@@ -16,12 +16,6 @@
 spending of <%= budget.total_spend %></p>
 <% end %>
 
-<h2>You have assigned budgets for the following categories this month</h3>
-<% @budgets.each do |budget| %>
-<p> <%= budget.category.name %> with a budget of <%= budget.amount_set %> and
-spending of <%= budget.total_spend %></p>
-<% end %>
-
 <h2>Metrics</h2>
 
 <table>

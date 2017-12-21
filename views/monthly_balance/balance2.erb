@@ -1,1 +1,45 @@
-<p><%= @transaction_total %> transaction_total </p>
+<h2>Balance between Year <%= @year1 %> Month <%= @month1 %>
+and Year <%= @year2 %> Month <%= @month2 %></h2>
+
+<p>Total budget assigned for this date range is £<%= @budget_total %></p>
+<p>Total spending for this date range is £<%= @transaction_total %></p>
+
+<% if @transaction_total > @budget_total %>
+<p>You have exceeded your budget in this date range by £<%= @transaction_total - @budget_total %></p>
+<% else %>
+<p>You underspent in this date range by £<%= @budget_total - @transaction_total %></p>
+<% end %>
+
+
+<h2>You assigned budgets for the following categories in this date range</h3>
+<% @budgets_hashes.each do |budget| %>
+<p> <%= budget["name"] %> with a budget of <%= budget["budget_amount"].to_f / 2 %> and
+spending of <%= budget["transaction_amount"].to_f / 2 %></p>
+<% end %>
+
+<h2>Metrics</h2>
+
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Category Budget</th>
+    <th>Category Transaction Total</th>
+    <th>% Budget Unspent</th>
+    <th>Budget Unspent</th>
+  </tr>
+  <% @budgets_hashes.each do |budget| %>
+  <tr>
+    <td><%= budget["name"] %></td>
+    <td>£<%= budget["budget_amount"].to_f / 2 %></td>
+    <td>£<%= budget["transaction_amount"].to_f / 2 %></td>
+    <td><%= ((budget["transaction_amount"].to_f / 2) / (budget["budget_amount"].to_f / 2)) * 100%>%</td>
+    <td>£<%=  (budget["budget_amount"].to_f / 2) - (budget["transaction_amount"].to_f / 2) %></td>
+  </tr>
+  <% end %>
+
+</table>
+
+<h3>You have the following transactions in this date range</h3>
+<% @transactions.each do |transaction| %>
+<p> <%= transaction.transaction_date %> | <%= transaction.amount%> | <%= transaction.category.name %> | <%= transaction.vendor.name %>  </p>
+<% end %>

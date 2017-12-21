@@ -131,9 +131,12 @@ def Transaction.all
 
 
     def Transaction.find_multiple_by_month_year(date1, date2)
+      new_date = Date.parse(date2)
+      end_date = new_date.next_month.prev_day
+      parsed_date = end_date.strftime
       sql = "select * from transactions where
       transaction_date >= $1 and transaction_date <= $2;"
-      hashes = SqlRunner.run(sql, [date1, date2])
+      hashes = SqlRunner.run(sql, [date1, parsed_date])
       result_final = hashes.map {
         |transaction| Transaction.new(transaction) }
       return result_final
@@ -202,6 +205,67 @@ def Transaction.all
       # return result1[0]
     end
 
+    def Transaction.unique_dates_string
+      sql = "SELECT * FROM transactions"
+      result = SqlRunner.run(sql)
+      result1 = result.map {
+        |transaction| Transaction.new(transaction) }
+      array_dates = result1.map { |transaction| transaction.transaction_date}
+      unique_dates = array_dates.uniq
+      result2 = unique_dates.map { |date1| Date.parse(date1)}
+      # result3 = result2.map { |date2| date2.strftime("%Y-%m")}
+      return result2
+    end
+
+    # def Transaction.return_array_unique_max_dates
+    #   array_date_objects = Transaction.unique_dates_string
+    #   last_date = {}
+    #   current_month = nil
+    #   most_recent_day = nil
+    #   for date in array_date_objects
+    #     if current_month = nil
+    #       current_month = date.mon
+    #       most_recent_day = date.day
+    #       last_date[month] = most_recent_day
+    #     elsif date.mon == current_month
+    #       if date.day > most_recent_day
+    #         most_recent_day = date.day
+    #         last_date[month] = most_recent_day
+    #       end
+    #     elsif date.mon > month
+    #       current_month = date.mon
+    #       most_recent_day = date.day
+    #       last_date[month] = most_recent_day
+    #     end
+    #   end
+    #
+    #   last_date {1 => 5, 2 => 9, 3 => 11}
+    #   last_date.keys [1,2,3]
+    #   for key in  keys
+    #     lstdate[key]
+    #
+
+    #
+    #
+    #   array = []
+    #   counter = array_date_objects[0]
+    #   result = array_date_objects.each { |date|
+    #     if date.mon == counter.mon
+    #
+    #
+    #   }
+    #
+    #
+    #
+    #
+    #
+    #   counter = array_date_objects[0].day
+    #   for date in array_date_objects
+    #     if array_date_objects[0].day < date.day
+    #       counter += 1
+    #
+    # end
+    #
 
     #
     # def Transaction.find_by_month_year(date)
