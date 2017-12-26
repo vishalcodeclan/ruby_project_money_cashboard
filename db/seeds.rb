@@ -43,9 +43,9 @@ v5 = Vendor.new({"name" => "M&S"})
 v6 = Vendor.new({"name" => "Cineworld"})
 v7 = Vendor.new({"name" => "Tesco"})
 v8 = Vendor.new({"name" => "Toys R Us"})
-v9 = Vendor.new({"name" => "Amazon"})
-v10 = Vendor.new({"name" => "JD Sports"})
-v11 = Vendor.new({"name" => "Expedia"})
+v9 = Vendor.new({"name" => "Expedia"})
+v10 = Vendor.new({"name" => "Skyscanner"})
+v11 = Vendor.new({"name" => "Jack Wills"})
 
 v1.save
 v2.save
@@ -60,67 +60,67 @@ v10.save
 v11.save
 
 b1 = Budget.new({
-  "amount_set" => 300,
+  "amount_set" => 300.00,
   "start_date" => Date.new(2017,1),
   "category_id" => c1.id
   })
 
   b2 = Budget.new({
-    "amount_set" => 400,
+    "amount_set" => 400.00,
     "start_date" => Date.new(2017,2),
     "category_id" => c1.id
     })
 
     b3 = Budget.new({
-      "amount_set" => 100,
+      "amount_set" => 100.00,
       "start_date" => Date.new(2017,1),
       "category_id" => c2.id
       })
 
       b4 = Budget.new({
-        "amount_set" => 100,
+        "amount_set" => 100.00,
         "start_date" => Date.new(2017,2),
         "category_id" => c2.id
         })
 
         b5 = Budget.new({
-          "amount_set" => 200,
+          "amount_set" => 200.00,
           "start_date" => Date.new(2017,1),
           "category_id" => c3.id
           })
 
           b6 = Budget.new({
-            "amount_set" => 300,
+            "amount_set" => 300.00,
             "start_date" => Date.new(2017,2),
             "category_id" => c3.id
             })
 
             b7 = Budget.new({
-              "amount_set" => 500,
+              "amount_set" => 500.00,
               "start_date" => Date.new(2017,1),
               "category_id" => c4.id
               })
 
               b8 = Budget.new({
-                "amount_set" => 600,
+                "amount_set" => 600.00,
                 "start_date" => Date.new(2017,2),
                 "category_id" => c4.id
                 })
 
                 b9 = Budget.new({
-                  "amount_set" => 300,
+                  "amount_set" => 300.00,
                   "start_date" => Date.new(2018,1),
                   "category_id" => c5.id
                   })
 
                   b10 = Budget.new({
-                    "amount_set" => 500,
+                    "amount_set" => 500.00,
                     "start_date" => Date.new(2018,1),
                     "category_id" => c5.id
                     })
 
                     b11 = Budget.new({
-                      "amount_set" => 600,
+                      "amount_set" => 600.00,
                       "start_date" => Date.new(2018,2),
                       "category_id" => c5.id
                       })

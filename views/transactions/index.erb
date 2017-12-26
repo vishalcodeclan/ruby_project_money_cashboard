@@ -12,6 +12,10 @@
 
 <input type="submit" name="" value="submit">
 
+</form>
+
+<form class="vishal" action="/transactions/history/category/" method="get">
+
   <label for="category_select">Select Category:</label>
   <select class="" name="category_id" id="category_select">
     <% @categories.each do |category| %>
@@ -19,7 +23,7 @@
           <% end %>
   </select>
 
-<input type="submit" name="" value="submit" formaction="/transactions/history/category/">
+<input type="submit" name="" value="submit">
 
 </form>
 

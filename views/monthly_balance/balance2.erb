@@ -1,13 +1,13 @@
 <h2>Balance between Year <%= @year1 %> Month <%= @month1 %>
 and Year <%= @year2 %> Month <%= @month2 %></h2>
 
-<p>Total budget assigned for this date range is £<%= @budget_total %></p>
-<p>Total spending for this date range is £<%= @transaction_total %></p>
+<p>Total budget assigned for this date range is £<%= sprintf "%.2f",@budget_total %></p>
+<p>Total spending for this date range is £<%= sprintf "%.2f",@transaction_total %></p>
 
 <% if @transaction_total > @budget_total %>
-<p>You have exceeded your budget in this date range by £<%= @transaction_total - @budget_total %></p>
+<p>You have exceeded your budget in this date range by £<%= sprintf "%.2f", (@transaction_total - @budget_total) %></p>
 <% else %>
-<p>You underspent in this date range by £<%= @budget_total - @transaction_total %></p>
+<p>Unused budget in your specified date range is £<%= sprintf "%.2f", (@budget_total - @transaction_total) %></p>
 <% end %>
 
 <h2>Metrics</h2>
@@ -18,23 +18,35 @@ and Year <%= @year2 %> Month <%= @month2 %></h2>
     <th>Category</th>
     <th>Category Budget</th>
     <th>Category Transaction Total</th>
-    <th>% Budget Unspent</th>
-    <th>Budget Unspent</th>
+    <th>% Budget Used</th>
+    <th>Budget Amount Remaining</th>
   </tr>
   <% @budgets.each do |budget| %>
   <tr>
     <td><%= budget.start_date[0,7] %></td>
     <td><%= budget.category.name %></td>
-    <td>£<%= budget.amount_set %></td>
-    <td>£<%= budget.total_spend %></td>
-    <td><%= (budget.total_spend / budget.amount_set) * 100%>%</td>
-    <td>£<%=  budget.amount_set - budget.total_spend %></td>
+    <td>£<%= sprintf "%.2f",budget.amount_set %></td>
+    <td>£<%= sprintf "%.2f",budget.total_spend %></td>
+    <td><%= sprintf "%.2f",((budget.total_spend / budget.amount_set) * 100).round(1)%>%</td>
+    <td>£<%=  sprintf "%.2f", (budget.amount_set - budget.total_spend) %></td>
   </tr>
   <% end %>
 
 </table>
 
 <h3>You have the following transactions in this date range</h3>
-<% @transactions.each do |transaction| %>
-<p> <%= transaction.transaction_date %> | <%= transaction.amount%> | <%= transaction.category.name %> | <%= transaction.vendor.name %>  </p>
-<% end %>
+<table>
+  <tr>
+    <th>Date</th>
+    <th>Amount</th>
+    <th>Category</th>
+    <th>Vendor</th>
+  </tr>
+  <% @transactions.each do |transaction| %>
+  <tr>
+  <td><%= transaction.transaction_date %></td>
+  <td><%= sprintf "%.2f", transaction.amount %></td>
+  <td><%= transaction.category.name %></td>
+  <td><%= transaction.vendor.name %></td>
+  </tr>
+  <% end %>

@@ -30,6 +30,5 @@ get '/balance2' do
   @transaction_total = Transaction.total_multiple_by_month_year(params[:start_date], params[:end_date])
   @budgets = Budget.find_multiple_by_month_year(params[:start_date], params[:end_date])
   @budget_total = Budget.total_multiple_by_month_year(params[:start_date], params[:end_date])
-  @budgets_hashes = Budget.balance_find_multiple_by_month_year(params[:start_date], params[:end_date])
   erb(:"monthly_balance/balance2")
 end
